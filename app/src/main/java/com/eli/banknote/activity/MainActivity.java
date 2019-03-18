@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
         // urls to load navigation header background image
         // and profile image
-        private static final String urlNavHeaderBg = "https://navcommerce.io/media/1042/header-background-clouds2-ocean-green-500px.png?anchor=center&mode=crop&width=1140&height=600&rnd=131181219030000000";
-        private static final String urlProfileImg = "https://pbs.twimg.com/profile_images/1059689100012347392/l-AmquFE_400x400.jpg";
+        private static final String urlNavHeaderBg = "https://regmedia.co.uk/2018/01/19/shutterstock_hand_cloudc.jpg";
+        private static final String urlProfileImg = "http://www.iconsalot.com/asset/icons/vectors-market/business-ad-statistics/512/007-cloud-icon.png";
 
         // index to identify current nav menu item
         public static int navItemIndex = 0;
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
          */
         private void loadNavHeader() {
             // name, website
-            txtName.setText("Elirehema Paul");
+            txtName.setText("ClientFull Name");
             txtWebsite.setText(Html.fromHtml("https://twitter.com/e_paul_"));
 
             // loading header background image
