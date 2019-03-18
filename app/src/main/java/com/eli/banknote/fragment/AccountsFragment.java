@@ -1,4 +1,4 @@
-package com.eli.banknote.view.fragment;
+package com.eli.banknote.fragment;
 
 
 import android.os.Bundle;
@@ -9,13 +9,14 @@ import android.view.ViewGroup;
 
 import com.eli.banknote.R;
 
+
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link AccountsFragment} subclass.
  */
-public class NotificationsFragment extends Fragment {
+public class AccountsFragment extends Fragment {
 
 
-    public NotificationsFragment() {
+    public AccountsFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +25,7 @@ public class NotificationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notifications, container, false);
+        return inflater.inflate(R.layout.fragment_, container, false);
     }
 
 }

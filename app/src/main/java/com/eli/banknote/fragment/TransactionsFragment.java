@@ -1,4 +1,4 @@
-package com.eli.banknote.view.fragment;
+package com.eli.banknote.fragment;
 
 
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.eli.banknote.view.activity;
+package com.eli.banknote.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
