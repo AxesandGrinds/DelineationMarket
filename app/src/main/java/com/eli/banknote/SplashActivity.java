@@ -1,9 +1,12 @@
-package com.eli.banknote.view.activity;
+package com.eli.banknote;
 
 import android.content.Intent;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.eli.banknote.activity.MainActivity;
+
 
 public class SplashActivity extends AppCompatActivity {
 
