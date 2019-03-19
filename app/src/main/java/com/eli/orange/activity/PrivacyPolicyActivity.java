@@ -1,9 +1,9 @@
-package com.eli.banknote.activity;
+package com.eli.orange.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.eli.banknote.R;
+import com.eli.orange.R;
 
 public class PrivacyPolicyActivity extends AppCompatActivity {
 

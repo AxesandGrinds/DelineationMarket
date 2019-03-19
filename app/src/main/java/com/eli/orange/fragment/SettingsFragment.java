@@ -1,4 +1,4 @@
-package com.eli.banknote.fragment;
+package com.eli.orange.fragment;
 
 
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.eli.banknote.R;
+import com.eli.orange.R;
 
 /**
  * A simple {@link Fragment} subclass.

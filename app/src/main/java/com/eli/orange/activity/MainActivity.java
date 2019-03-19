@@ -1,4 +1,4 @@
-package com.eli.banknote.activity;
+package com.eli.orange.activity;
 
 
 import android.content.Intent;
@@ -27,12 +27,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.eli.banknote.R;
-import com.eli.banknote.fragment.HomeFragment;
-import com.eli.banknote.fragment.NotificationsFragment;
-import com.eli.banknote.fragment.AccountsFragment;
-import com.eli.banknote.fragment.SettingsFragment;
-import com.eli.banknote.fragment.TransactionsFragment;
+import com.eli.orange.R;
+import com.eli.orange.fragment.HomeFragment;
+import com.eli.orange.fragment.NotificationsFragment;
+import com.eli.orange.fragment.AccountsFragment;
+import com.eli.orange.fragment.SettingsFragment;
+import com.eli.orange.fragment.TransactionsFragment;
 
 public class MainActivity extends AppCompatActivity {
 

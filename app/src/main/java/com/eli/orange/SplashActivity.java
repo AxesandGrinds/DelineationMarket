@@ -1,9 +1,12 @@
-package com.eli.banknote.activity;
+package com.eli.orange;
 
 import android.content.Intent;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.eli.orange.activity.MainActivity;
+
 
 public class SplashActivity extends AppCompatActivity {
 
