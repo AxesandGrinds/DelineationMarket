@@ -1,4 +1,4 @@
-package com.eli.banknote.other;
+package com.eli.orange.other;
 
 import android.content.Context;
 import android.graphics.Bitmap;

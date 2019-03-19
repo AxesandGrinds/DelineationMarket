@@ -1,4 +1,4 @@
-package com.eli.banknote;
+package com.eli.orange;
 
 import org.junit.Test;
 
