@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
         // urls to load navigation header background image
         // and profile image
-        private static final String urlNavHeaderBg = "https://navcommerce.io/media/1042/header-background-clouds2-ocean-green-500px.png?anchor=center&mode=crop&width=1140&height=600&rnd=131181219030000000";
-        private static final String urlProfileImg = "https://pbs.twimg.com/profile_images/1059689100012347392/l-AmquFE_400x400.jpg";
+        private static final String urlNavHeaderBg = "https://i0.wp.com/www.newhopeschool.org/wp-content/uploads/2017/10/2560x1440-teal-blue-solid-color-background.jpg";
+        private static final String urlProfileImg = "https://cdn.pixabay.com/photo/2016/08/20/05/36/avatar-1606914__340.png";
 
         // index to identify current nav menu item
         public static int navItemIndex = 0;
