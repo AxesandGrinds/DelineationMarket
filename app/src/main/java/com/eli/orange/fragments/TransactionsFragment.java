@@ -1,4 +1,4 @@
-package com.eli.orange.fragment;
+package com.eli.orange.fragments;
 
 
 import android.os.Bundle;
@@ -9,14 +9,13 @@ import android.view.ViewGroup;
 
 import com.eli.orange.R;
 
-
 /**
- * A simple {@link AccountsFragment} subclass.
+ * A simple {@link Fragment} subclass.
  */
-public class AccountsFragment extends Fragment {
+public class TransactionsFragment extends Fragment {
 
 
-    public AccountsFragment() {
+    public TransactionsFragment() {
         // Required empty public constructor
     }
 
@@ -25,7 +24,7 @@ public class AccountsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_, container, false);
+        return inflater.inflate(R.layout.fragment_movies, container, false);
     }
 
 }
