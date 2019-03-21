@@ -1,4 +1,4 @@
-package com.eli.orange.fragment;
+package com.eli.orange.fragments;
 
 
 import android.os.Bundle;

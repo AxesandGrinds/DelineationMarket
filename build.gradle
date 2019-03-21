@@ -2,6 +2,7 @@
 
 buildscript {
     repositories {
+        mavenCentral()
         google()
         jcenter()
 
@@ -16,6 +17,7 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenCentral()
         google()
         jcenter()
 
@@ -33,4 +35,5 @@ ext{
     butterKnifeVersion = '10.1.0'
     glideVersion = '4.8.0'
     retrofitVersion = '2.5.0'
+    googleLocationAPI = '16.0.0'
 }

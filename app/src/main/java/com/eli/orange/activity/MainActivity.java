@@ -4,15 +4,18 @@ package com.eli.orange.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.eli.orange.fragments.BottomSheetFragment;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,19 +25,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.eli.orange.R;
-import com.eli.orange.fragment.HomeFragment;
-import com.eli.orange.fragment.NotificationsFragment;
-import com.eli.orange.fragment.AccountsFragment;
-import com.eli.orange.fragment.SettingsFragment;
-import com.eli.orange.fragment.TransactionsFragment;
+import com.eli.orange.fragments.HomeFragment.homeFragment;
+import com.eli.orange.fragments.NotificationsFragment;
+import com.eli.orange.fragments.AccountsFragment;
+import com.eli.orange.fragments.SettingsFragment;
+import com.eli.orange.fragments.TransactionsFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
         @BindView(R.id.nav_view)
         NavigationView navigationView;
@@ -48,7 +52,14 @@ public class MainActivity extends AppCompatActivity {
         @BindView(R.id.fab)
         FloatingActionButton fab;
 
-        // urls to load navigation header background image
+
+    @BindView(R.id.bottom_sheet)
+    LinearLayout layoutBottomSheet;
+
+    BottomSheetBehavior sheetBehavior;
+
+
+    // urls to load navigation header background image
         // and profile image
         private static final String urlNavHeaderBg = "https://i0.wp.com/www.newhopeschool.org/wp-content/uploads/2017/10/2560x1440-teal-blue-solid-color-background.jpg";
         private static final String urlProfileImg = "https://cdn.pixabay.com/photo/2016/08/20/05/36/avatar-1606914__340.png";
@@ -81,6 +92,33 @@ public class MainActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
 
             mHandler = new Handler();
+            sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
+
+            sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    switch (newState) {
+                        case BottomSheetBehavior.STATE_HIDDEN:
+                            break;
+                        case BottomSheetBehavior.STATE_EXPANDED: {
+                        }
+                        break;
+                        case BottomSheetBehavior.STATE_COLLAPSED: {
+                        }
+                        break;
+                        case BottomSheetBehavior.STATE_DRAGGING:
+                            break;
+                        case BottomSheetBehavior.STATE_SETTLING:
+                            break;
+                    }
+                }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+                }
+            });
+
 
 
             // Navigation view header
@@ -96,9 +134,11 @@ public class MainActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
+                    bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
                 }
+
+
             });
 
             // load nav menu header data
@@ -196,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
             switch (navItemIndex) {
                 case 0:
                     // home
-                    HomeFragment homeFragment = new HomeFragment();
+                    homeFragment homeFragment = new homeFragment(this);
                     return homeFragment;
                 case 1:
                     // photos
@@ -216,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
                     SettingsFragment settingsFragment = new SettingsFragment();
                     return settingsFragment;
                 default:
-                    return new HomeFragment();
+                    return new homeFragment(this);
             }
         }
 
