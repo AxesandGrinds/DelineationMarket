@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.eli.orange.fragments.BottomSheetFragment;
+import com.eli.orange.activity.privacyPolicy.PrivacyPolicyActivity;
+import com.eli.orange.fragments.bottomSheetFragment.BottomSheetFragment;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;

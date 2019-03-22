@@ -41,8 +41,7 @@ public class CustomInfoWindowGoogleMap implements GoogleMap.InfoWindowAdapter {
 
         InfoWindowData infoWindowData = (InfoWindowData) marker.getTag();
 
-        int imageId = context.getResources().getIdentifier(infoWindowData.getImage().toLowerCase(),
-                "drawable", context.getPackageName());
+        int imageId = context.getResources().getIdentifier(infoWindowData.getImage().toLowerCase(),"drawable", context.getPackageName());
         img.setImageResource(imageId);
 
         hotel_tv.setText(infoWindowData.getHotel());

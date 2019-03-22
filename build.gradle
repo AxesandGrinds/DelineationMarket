@@ -36,4 +36,8 @@ ext{
     glideVersion = '4.8.0'
     retrofitVersion = '2.5.0'
     googleLocationAPI = '16.0.0'
+    customTabsVersion = '1.0.0-beta01'
+    roomVersion = '1.1.1'
+    archLifecycleVersion = '1.1.1'
+    stethoVersion = '1.5.1'
 }

@@ -17,4 +17,10 @@
 
     <style name="AppTheme.AppBarOverlay"></style>
 
+    <style name="SwitchCompatStyle">
+
+        <item name="thumbTint">@color/primaryColor</item>
+        <item name="trackTint">@color/secondaryColor</item>
+    </style>
+
 </resources>

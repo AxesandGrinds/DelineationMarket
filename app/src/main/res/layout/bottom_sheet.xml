@@ -38,8 +38,10 @@
             app:layout_constraintTop_toBottomOf="@id/tvBottomSheetTitle" >
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtBottonSheetUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:hint="@string/username"/>
 
 
@@ -52,8 +54,10 @@
             app:layout_constraintTop_toBottomOf="@id/texInputLayout1" >
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edBottomSheetBusinessName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:hint="@string/business_name"/>
 
 
@@ -66,8 +70,10 @@
             app:layout_constraintTop_toBottomOf="@id/texInputLayout2" >
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edBottomSheetLocatioName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:hint="@string/location_name"/>
 
 
@@ -80,17 +86,18 @@
             app:layout_constraintTop_toBottomOf="@id/texInputLayout3" >
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edBottomSheetLongitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:hint="@string/location_grid"/>
 
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
         <Button
+            android:id="@+id/bottonSheetButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
