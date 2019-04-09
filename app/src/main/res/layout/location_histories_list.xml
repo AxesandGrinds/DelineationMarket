@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/card_margin">
+
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="@dimen/card_margin">
+
+            <com.google.android.gms.maps.MapView
+               android:id="@+id/locMapView"
+                android:layout_width="fill_parent"
+                android:layout_height="150dp"
+                xmlns:android="http://schemas.android.com/apk/res/android" />
+
+        <TableRow>
+
+            <TextView
+                android:text="CountryName: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/locCountryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </TableRow>
+        <TableRow>
+
+            <TextView
+                android:text="Admin Area: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_margin"/>
+
+            <TextView
+                android:id="@+id/locAdminArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_margin"/>
+        </TableRow>
+        <TableRow>
+
+            <TextView
+                android:text="Subadmin Area: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_margin"/>
+
+            <TextView
+                android:id="@+id/locsubAdminArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_margin"/>
+        </TableRow>
+        <TableRow>
+
+            <TextView
+                android:text="Locality: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_margin"/>
+
+            <TextView
+                android:id="@+id/locLocality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_margin"/>
+        </TableRow>
+        <TableRow>
+
+            <TextView
+                android:text="Address Line: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_margin"/>
+
+            <TextView
+                android:id="@+id/locAdressLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_margin"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:text="Address: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_margin"/>
+
+            <TextView
+                android:id="@+id/locAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_margin"/>
+        </TableRow>
+
+
+    </TableLayout>
+
+</androidx.cardview.widget.CardView>

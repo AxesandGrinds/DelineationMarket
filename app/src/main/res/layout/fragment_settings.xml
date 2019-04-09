@@ -1,16 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.SettingsFragment">
+    android:layout_margin="16dp"
+    android:gravity="center_horizontal"
+    android:background="#F6F6F6"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerSettings"
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchGps"
+        style="@style/SwitchCompatStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/nav_settings"
-        android:gravity="center"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/primaryColor"
+        android:text="Enable/Disable Device Location" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:text="Tap to switch device location on/off" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/primaryColor"/>
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchButton2"
+        style="@style/SwitchCompatStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/primaryColor"
+        android:text="Android Switch Button 2" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:text="Android Switch Button" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/primaryColor"/>
+
+    <TextView
+        android:id="@+id/textViewStting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="@dimen/card_margin"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:text="Change Online Account Settings" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/primaryColor"/>
+
+
+
+</LinearLayout>

@@ -15,4 +15,22 @@ public class Constants {
 
     public static final LatLng MELBOURNE = new LatLng(-37.81319, 144.96298);
 
+    public static final String CITIES_URL = "http://newhabari.000webhostapp.com/";
+
+    public static final String CITY_DATA_PATH = "cities.json";
+
+    public static final int  REQUEST_ID_ACCESS_COURSE_FINE_LOCATION = 100;
+
+    public static final String TAG = "TAG";
+
+    public static final String PRIVACY_POLICY_URL = "https://thepolicies.blogspot.com/2019/03/privacy-policy-of-elirehema-elirehema.html";
+
+    public static final int INITIAL_REQUEST=1337;
+
+    public static final int TAG_CODE_PERMISSION_LOCATION=INITIAL_REQUEST+1;
+
+    public static final String PLACES_API = "AIzaSyAIKwxGtOlFhy6YtwpxzwaQ3AqcANqnJ40";
+
+    public static final int  AUTOCOMPLETE_REQUEST_CODE = 100;
+
 }
