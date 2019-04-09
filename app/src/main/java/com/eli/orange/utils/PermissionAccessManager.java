@@ -29,7 +29,7 @@ public class PermissionAccessManager extends AppCompatActivity implements Locati
 
     }
 
-    homeFragment fragment = new homeFragment(context);
+    homeFragment fragment = new homeFragment();
 
 
     public void askLocationPermission(){
@@ -69,7 +69,7 @@ public class PermissionAccessManager extends AppCompatActivity implements Locati
 
                     Toast.makeText(this, "Permission granted!", Toast.LENGTH_LONG).show();
 
-                    // Show current location on Map.
+                    // Show current location on MapData.
                     fragment.showMyLocation();
                 }
                 // Cancelled or denied.

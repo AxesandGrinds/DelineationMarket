@@ -25,16 +25,16 @@ import java.util.List;
 
 
 /**
- * A simple {@link AccountsFragment} subclass.
+ * A simple {@link HistoryFragment} subclass.
  */
-public class AccountsFragment extends Fragment {
+public class HistoryFragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     private roomViewModel viewModel;
     private CurrentNewsAdapter recyclerViewAdapter;
 
 
-    public AccountsFragment() {
+    public HistoryFragment() {
         // Required empty public constructor
     }
 

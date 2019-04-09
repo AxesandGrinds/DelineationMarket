@@ -25,4 +25,12 @@ public class Constants {
 
     public static final String PRIVACY_POLICY_URL = "https://thepolicies.blogspot.com/2019/03/privacy-policy-of-elirehema-elirehema.html";
 
+    public static final int INITIAL_REQUEST=1337;
+
+    public static final int TAG_CODE_PERMISSION_LOCATION=INITIAL_REQUEST+1;
+
+    public static final String PLACES_API = "AIzaSyAIKwxGtOlFhy6YtwpxzwaQ3AqcANqnJ40";
+
+    public static final int  AUTOCOMPLETE_REQUEST_CODE = 100;
+
 }

@@ -48,7 +48,10 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PointOfInterest;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.heatmaps.WeightedLatLng;
 
 import org.json.JSONArray;
@@ -68,14 +71,14 @@ import static com.eli.orange.utils.Constants.MAX_ZOOM_PREFFERENCE;
 import static com.eli.orange.utils.Constants.MELBOURNE;
 import static com.eli.orange.utils.Constants.MIN_ZOOM_PREFFERENCE;
 import static com.eli.orange.utils.Constants.REQUEST_ID_ACCESS_COURSE_FINE_LOCATION;
+import static com.eli.orange.utils.Constants.TAG_CODE_PERMISSION_LOCATION;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class homeFragment extends BaseFragmentActivity implements
-        LocationListener,homeFragmentPresenter.View, GoogleMap.OnInfoWindowClickListener {
+        LocationListener,homeFragmentPresenter.View, GoogleMap.OnInfoWindowLongClickListener {
     View view;
-    Context context;
     private static final String TAG = "TAG";
     private GoogleMap myMap;
     private MarkerOptions markerOptions;
@@ -84,9 +87,11 @@ public class homeFragment extends BaseFragmentActivity implements
     private PermissionAccessManager permissionAccessManager;
     private homeFragmentPresenter presenter;
     private List<Cities> list = null;
+    private ClusterManager<MyItem> mClusterManager;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
-    public homeFragment(Context context) {
-        this.context = context;
+
+    public homeFragment() {
     }
 
 
@@ -96,15 +101,20 @@ public class homeFragment extends BaseFragmentActivity implements
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-        permissionAccessManager = new PermissionAccessManager(context);
-        presenter = new homeFragmentPresenter(context);
+        permissionAccessManager = new PermissionAccessManager(getContext());
+        presenter = new homeFragmentPresenter(getContext());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
 
-
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "id");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "name");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         showProgressBar();
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapfragmet);
 
-        // Set callback listener, on Google Map ready.
+        // Set callback listener, on Google MapData ready.
         mapFragment.getMapAsync(new OnMapReadyCallback() {
 
             @Override
@@ -117,16 +127,16 @@ public class homeFragment extends BaseFragmentActivity implements
     }
 
     private void onMyMapReady(GoogleMap googleMap) {
-        // Get Google Map from Fragment.
+        // Get Google MapData from Fragment.
         myMap = googleMap;
-        myMap.setOnInfoWindowClickListener(this::onInfoWindowClick);
+        myMap.setOnInfoWindowClickListener(this::onInfoWindowLongClick);
         // Get the data: latitude/longitude positions of police stations.
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
             boolean success = myMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
-                            context, R.raw.style_json));
+                            getContext(), R.raw.style_json));
 
             if (!success) {
                 Log.e(TAG, "Style parsing failed.");
@@ -140,17 +150,55 @@ public class homeFragment extends BaseFragmentActivity implements
 
             @Override
             public void onMapLoaded() {
-                // Map loaded. Dismiss this dialog, removing it from the screen.
+                // MapData loaded. Dismiss this dialog, removing it from the screen.
                 hideProgressBar();
+                presenter.readMapData(mClusterManager,myMap);
+                /*mClusterManager = new ClusterManager<MyItem>(getContext(),myMap);
+
+                myMap.setOnCameraIdleListener(mClusterManager);
+                myMap.setOnMarkerClickListener(mClusterManager);
                 try {
                     list = presenter.readItems(R.raw.cities);
                     for (int i =0; i<list.size(); i++){
                         //Log.d("data",list.get(i).getCountry());
                         LatLng sydney = new LatLng(list.get(i).getLatitude(), list.get(i).getLongitude());
-                        /*myMap.addMarker(new MarkerOptions().position(sydney)
-                                .title(list.get(i).getCountryName()));*/
+                        MyItem offsetItem = new MyItem(list.get(i).getLatitude(), list.get(i).getLongitude(),list.get(i).getCountry(),list.get(i).getCountryName());
+                        mClusterManager.addItem(offsetItem);
+                        mClusterManager.setAnimation(false);
+                        mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
+                            @Override
+                            public boolean onClusterClick(Cluster<MyItem> cluster) {
+                                return false;
+                            }
+                        });
+                        mClusterManager.cluster();
 
-                        MarkerOptions markerOptions = new MarkerOptions();
+                        /*myMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+                            @Override
+                            public View getInfoWindow(Marker marker) {
+
+                                InfoWindowData info = new InfoWindowData();
+                                info.setImage("logoassets");
+                                info.setHotel("Tanzania");
+                                info.setFood("Food : all types of restaurants available");
+                                info.setTransport("Reach the site by bus, car and train.");
+
+                                CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(getContext());
+                                myMap.setInfoWindowAdapter(customInfoWindow);
+                                marker.setTag(info);
+                                marker.showInfoWindow();
+                                return null;
+                            }
+
+                            @Override
+                            public View getInfoContents(Marker marker) {
+                                return null;
+                            }
+                        });*/
+
+
+
+                        /*MarkerOptions markerOptions = new MarkerOptions();
                         markerOptions.position(sydney)
                                 .title(list.get(i).getCountry())
                                 .snippet(list.get(i).getCountryName());
@@ -167,21 +215,34 @@ public class homeFragment extends BaseFragmentActivity implements
 
                         Marker m = myMap.addMarker(markerOptions);
                         m.setTag(info);
-                        m.showInfoWindow();
+                        m.showInfoWindow();*/
 
-                    }
+                    /*}
                 } catch (JSONException e) {
-                    Toast.makeText(context, "Problem reading list of locations.", Toast.LENGTH_LONG).show();
-                }
+                    Toast.makeText(getContext(), "Problem reading list of locations.", Toast.LENGTH_LONG).show();
+                }*/
 
 
 
                 permissionAccessManager.askLocationPermission();
             }
         });
-        myMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        myMap.getUiSettings().setZoomControlsEnabled(true);
-        myMap.setMyLocationEnabled(true);
+
+        if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                        PackageManager.PERMISSION_GRANTED) {
+            myMap.setMyLocationEnabled(true);
+            myMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            myMap.getUiSettings().setZoomControlsEnabled(true);
+            myMap.getUiSettings().setMyLocationButtonEnabled(true);
+        } else {
+
+            ActivityCompat.requestPermissions(getActivity(), new String[] {
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION },
+                TAG_CODE_PERMISSION_LOCATION);
+        }
     }
 
 
@@ -214,7 +275,7 @@ public class homeFragment extends BaseFragmentActivity implements
         }
         // With Android API >= 23, need to catch SecurityException.
         catch (SecurityException e) {
-            Toast.makeText(context, "Show My Location Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Show My Location Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.e(TAG, "Show My Location Error:" + e.getMessage());
             e.printStackTrace();
             return;
@@ -232,7 +293,7 @@ public class homeFragment extends BaseFragmentActivity implements
                     .tilt(40)                   // Sets the tilt of the camera to 30 degrees
                     .build();                   // Creates a CameraPosition from the builder
             myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            // Add Marker to Map
+            // Add Marker to MapData
             MarkerOptions option = new MarkerOptions();
             option.title("My Location");
             option.snippet("....");
@@ -240,7 +301,7 @@ public class homeFragment extends BaseFragmentActivity implements
             Marker currentMarker = myMap.addMarker(option);
             currentMarker.showInfoWindow();
         } else {
-            Toast.makeText(context, "Location not found!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Location not found!", Toast.LENGTH_LONG).show();
             Log.i(TAG, "Location not found");
         }
 
@@ -273,8 +334,8 @@ public class homeFragment extends BaseFragmentActivity implements
     public void showProgressBar() {
 
         // Create Progress Bar.
-        myProgress = new ProgressDialog(context);
-        myProgress.setTitle("Map Loading ...");
+        myProgress = new ProgressDialog(getContext());
+        myProgress.setTitle("MapData Loading ...");
         myProgress.setMessage("Please wait...");
         myProgress.setCancelable(true);
         // Display Progress Bar.
@@ -289,11 +350,9 @@ public class homeFragment extends BaseFragmentActivity implements
     }
 
     @Override
-    public void onInfoWindowClick(Marker marker) {
-
-        Toast.makeText(context, presenter.getRegionName(marker.getPosition().latitude,marker.getPosition().longitude),LENGTH_LONG).show();
+    public void onInfoWindowLongClick(Marker marker) {
+        Toast.makeText(getContext(), presenter.getRegionName(marker.getPosition().latitude,marker.getPosition().longitude),LENGTH_LONG).show();
         presenter.saveToLocalStorage(marker);
-
     }
 }
 

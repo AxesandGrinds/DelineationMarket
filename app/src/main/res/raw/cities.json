@@ -1,75 +1,464 @@
 [
   {
-    "country": "AZ",
-    "name": "Kerbakhiar",
-    "lat": "40.10984",
-    "lng": "46.04446"
+    "country": "TZ",
+    "name": "Nakatunguru",
+    "lat": "-2.11667",
+    "lng": "33.06667"
   },
   {
-    "country": "AZ",
-    "name": "Qala",
-    "lat": "40.44256",
-    "lng": "50.16759"
+    "country": "TZ",
+    "name": "Naberera",
+    "lat": "-4.2",
+    "lng": "36.93333"
   },
   {
-    "country": "AZ",
-    "name": "Qax İngiloy",
-    "lat": "41.42412",
-    "lng": "46.93859"
+    "country": "TZ",
+    "name": "Mwembe",
+    "lat": "-4.15",
+    "lng": "37.85"
   },
   {
-    "country": "AZ",
-    "name": "Qaxbaş",
-    "lat": "41.43254",
-    "lng": "46.9646"
+    "country": "TZ",
+    "name": "Mwaya",
+    "lat": "-9.55",
+    "lng": "33.95"
   },
   {
-    "country": "AZ",
-    "name": "İsmayıllı",
-    "lat": "40.78485",
-    "lng": "48.15141"
+    "country": "TZ",
+    "name": "Mwanza",
+    "lat": "-2.51667",
+    "lng": "32.9"
   },
   {
-    "country": "AZ",
-    "name": "Yeni Suraxanı",
-    "lat": "40.43026",
-    "lng": "50.03598"
+    "country": "TZ",
+    "name": "Mwanga",
+    "lat": "-4.8",
+    "lng": "38.2"
   },
   {
-    "country": "AZ",
-    "name": "Gyuzdek",
-    "lat": "40.37444",
-    "lng": "49.68194"
+    "country": "TZ",
+    "name": "Mwadui",
+    "lat": "-3.55",
+    "lng": "33.6"
   },
   {
-    "country": "AZ",
-    "name": "Geoktschai",
-    "lat": "40.65055",
-    "lng": "47.74219"
+    "country": "TZ",
+    "name": "Mvomero",
+    "lat": "-6.25",
+    "lng": "38.66667"
   },
   {
-    "country": "AZ",
-    "name": "Hövsan",
-    "lat": "40.37444",
-    "lng": "50.08528"
+    "country": "TZ",
+    "name": "Musoma",
+    "lat": "-1.5",
+    "lng": "33.8"
   },
   {
-    "country": "AZ",
-    "name": "Goranboy",
-    "lat": "40.61028",
-    "lng": "46.78972"
+    "country": "TZ",
+    "name": "Muriti",
+    "lat": "-1.98333",
+    "lng": "32.91667"
   },
   {
-    "country": "AZ",
-    "name": "Ganja",
-    "lat": "40.68278",
-    "lng": "46.36056"
+    "country": "TZ",
+    "name": "Mungaa",
+    "lat": "-4.96667",
+    "lng": "34.88333"
   },
   {
-    "country": "AZ",
-    "name": "Kyadabek",
-    "lat": "40.57055",
-    "lng": "45.81229"
+    "country": "TZ",
+    "name": "Muleba",
+    "lat": "-1.83972",
+    "lng": "31.65444"
+  },
+  {
+    "country": "TZ",
+    "name": "Muheza",
+    "lat": "-5.16667",
+    "lng": "38.78333"
+  },
+  {
+    "country": "TZ",
+    "name": "Mugumu",
+    "lat": "-1.85",
+    "lng": "34.7"
+  },
+  {
+    "country": "TZ",
+    "name": "Mugango",
+    "lat": "-1.68333",
+    "lng": "33.7"
+  },
+  {
+    "country": "TZ",
+    "name": "Mtwango",
+    "lat": "-9.01667",
+    "lng": "34.8"
+  },
+  {
+    "country": "TZ",
+    "name": "Mto wa Mbu",
+    "lat": "-3.35",
+    "lng": "35.85"
+  },
+  {
+    "country": "TZ",
+    "name": "Mtinko",
+    "lat": "-4.55",
+    "lng": "34.85"
+  },
+  {
+    "country": "TZ",
+    "name": "Mtimbira",
+    "lat": "-8.78333",
+    "lng": "36.35"
+  },
+  {
+    "country": "TZ",
+    "name": "Mtambile",
+    "lat": "-5.38333",
+    "lng": "39.7"
+  },
+  {
+    "country": "TZ",
+    "name": "Msowero",
+    "lat": "-6.53333",
+    "lng": "37.2"
+  },
+  {
+    "country": "TZ",
+    "name": "Msanga",
+    "lat": "-6.05",
+    "lng": "36.03333"
+  },
+  {
+    "country": "TZ",
+    "name": "Mpwapwa",
+    "lat": "-6.35",
+    "lng": "36.48333"
+  },
+  {
+    "country": "TZ",
+    "name": "Mpanda",
+    "lat": "-6.34379",
+    "lng": "31.06951"
+  },
+  {
+    "country": "TZ",
+    "name": "Moshi",
+    "lat": "-3.35",
+    "lng": "37.33333"
+  },
+  {
+    "country": "TZ",
+    "name": "Morogoro",
+    "lat": "-6.82102",
+    "lng": "37.66122"
+  },
+  {
+    "country": "TZ",
+    "name": "Monduli",
+    "lat": "-3.3",
+    "lng": "36.45"
+  },
+  {
+    "country": "TZ",
+    "name": "Mlowo",
+    "lat": "-9",
+    "lng": "32.98333"
+  },
+  {
+    "country": "TZ",
+    "name": "Mlimba",
+    "lat": "-8.8",
+    "lng": "35.81667"
+  },
+  {
+    "country": "TZ",
+    "name": "Mlangali",
+    "lat": "-9.78333",
+    "lng": "34.51667"
+  },
+  {
+    "country": "TZ",
+    "name": "Mlandizi",
+    "lat": "-6.7",
+    "lng": "38.73333"
+  },
+  {
+    "country": "TZ",
+    "name": "Mlalo",
+    "lat": "-4.93333",
+    "lng": "38.93333"
+  },
+  {
+    "country": "TZ",
+    "name": "Mkuranga",
+    "lat": "-7.11799",
+    "lng": "39.20782"
+  },
+  {
+    "country": "TZ",
+    "name": "Mkokotoni",
+    "lat": "-5.87506",
+    "lng": "39.25523"
+  },
+  {
+    "country": "TZ",
+    "name": "Mwandiga",
+    "lat": "-4.83",
+    "lng": "29.65806"
+  },
+  {
+    "country": "TZ",
+    "name": "Misungwi",
+    "lat": "-2.85",
+    "lng": "33.08333"
+  },
+  {
+    "country": "TZ",
+    "name": "Misasi",
+    "lat": "-3",
+    "lng": "33.08333"
+  },
+  {
+    "country": "TZ",
+    "name": "Mikumi",
+    "lat": "-7.40409",
+    "lng": "36.98309"
+  },
+  {
+    "country": "TZ",
+    "name": "Micheweni",
+    "lat": "-4.96667",
+    "lng": "39.83333"
+  },
+  {
+    "country": "TZ",
+    "name": "Mhango",
+    "lat": "-3.28333",
+    "lng": "32.85"
+  },
+  {
+    "country": "TZ",
+    "name": "Mgandu",
+    "lat": "-5.95",
+    "lng": "34.13333"
+  },
+  {
+    "country": "TZ",
+    "name": "Mbumi",
+    "lat": "-7.90577",
+    "lng": "39.21047"
+  },
+  {
+    "country": "TZ",
+    "name": "Mbulu",
+    "lat": "-3.85",
+    "lng": "35.53333"
+  },
+  {
+    "country": "TZ",
+    "name": "Mbuguni",
+    "lat": "-3.56667",
+    "lng": "36.95"
+  },
+  {
+    "country": "TZ",
+    "name": "Mbeya",
+    "lat": "-8.9",
+    "lng": "33.45"
+  },
+  {
+    "country": "TZ",
+    "name": "Mazinde",
+    "lat": "-4.8",
+    "lng": "38.21667"
+  },
+  {
+    "country": "TZ",
+    "name": "Matui",
+    "lat": "-4.8",
+    "lng": "38.25"
+  },
+  {
+    "country": "TZ",
+    "name": "Matonga",
+    "lat": "-2.38333",
+    "lng": "34.08333"
+  },
+  {
+    "country": "TZ",
+    "name": "Matamba",
+    "lat": "-8.98333",
+    "lng": "33.96667"
+  },
+  {
+    "country": "TZ",
+    "name": "Matai",
+    "lat": "-8.3",
+    "lng": "31.51667"
+  },
+  {
+    "country": "TZ",
+    "name": "Maswa",
+    "lat": "-2.68333",
+    "lng": "33.98333"
+  },
+  {
+    "country": "TZ",
+    "name": "Masumbwe",
+    "lat": "-3.63333",
+    "lng": "32.18333"
+  },
+  {
+    "country": "TZ",
+    "name": "Masoko",
+    "lat": "-9.33333",
+    "lng": "33.75"
+  },
+  {
+    "country": "TZ",
+    "name": "Maramba",
+    "lat": "-5.05",
+    "lng": "38.61667"
+  },
+  {
+    "country": "TZ",
+    "name": "Maneromango",
+    "lat": "-7.1988",
+    "lng": "38.78478"
+  },
+  {
+    "country": "TZ",
+    "name": "Malya",
+    "lat": "-2.98333",
+    "lng": "33.51667"
+  },
+  {
+    "country": "TZ",
+    "name": "Malinyi",
+    "lat": "-8.93333",
+    "lng": "36.13333"
+  },
+  {
+    "country": "TZ",
+    "name": "Malangali",
+    "lat": "-8.56667",
+    "lng": "34.85"
+  },
+  {
+    "country": "TZ",
+    "name": "Malampaka",
+    "lat": "-3.13333",
+    "lng": "33.53333"
+  },
+  {
+    "country": "TZ",
+    "name": "Makuyuni",
+    "lat": "-4.73333",
+    "lng": "38.1"
+  },
+  {
+    "country": "TZ",
+    "name": "Makungu",
+    "lat": "-8.73333",
+    "lng": "35.28333"
+  },
+  {
+    "country": "TZ",
+    "name": "Makumbako",
+    "lat": "-8.85",
+    "lng": "34.83333"
+  },
+  {
+    "country": "TZ",
+    "name": "Makanya",
+    "lat": "-4.36667",
+    "lng": "37.83333"
+  },
+  {
+    "country": "TZ",
+    "name": "Majengo",
+    "lat": "-5.15",
+    "lng": "38.98333"
+  },
+  {
+    "country": "TZ",
+    "name": "Mahonda",
+    "lat": "-6.45",
+    "lng": "39.46667"
+  },
+  {
+    "country": "TZ",
+    "name": "Mahenge",
+    "lat": "-8.68333",
+    "lng": "36.71667"
+  },
+  {
+    "country": "TZ",
+    "name": "Mahanje",
+    "lat": "-9.93333",
+    "lng": "35.33333"
+  },
+  {
+    "country": "TZ",
+    "name": "Kihangara",
+    "lat": "-2.58333",
+    "lng": "33.35"
+  },
+  {
+    "country": "TZ",
+    "name": "Magugu",
+    "lat": "-4.01667",
+    "lng": "35.76667"
+  },
+  {
+    "country": "TZ",
+    "name": "Magomeni",
+    "lat": "-6.8",
+    "lng": "39.25"
+  },
+  {
+    "country": "TZ",
+    "name": "Magomeni",
+    "lat": "-5.23333",
+    "lng": "38.11667"
+  },
+  {
+    "country": "TZ",
+    "name": "Magole",
+    "lat": "-6.37697",
+    "lng": "37.37373"
+  },
+  {
+    "country": "TZ",
+    "name": "Mafinga",
+    "lat": "-7.25",
+    "lng": "35.06667"
+  },
+  {
+    "country": "TZ",
+    "name": "Mabamba",
+    "lat": "-3.59833",
+    "lng": "30.50194"
+  },
+  {
+    "country": "TZ",
+    "name": "Mabama",
+    "lat": "-5.13333",
+    "lng": "32.53333"
+  },
+  {
+    "country": "TZ",
+    "name": "Lushoto",
+    "lat": "-4.78333",
+    "lng": "38.28333"
+  },
+  {
+    "country": "TZ",
+    "name": "Lupiro",
+    "lat": "-8.38333",
+    "lng": "36.66667"
   }
-
 ]

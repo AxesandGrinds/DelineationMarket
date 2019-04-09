@@ -12,6 +12,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import com.eli.orange.R;
+import com.eli.orange.activity.FirebaseUserAccountSettingActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,5 +84,9 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             statusCheck();
         }else {}
 
+    }
+    @OnClick(R.id.textViewStting)
+    void goToSettings(){
+        getContext().startActivity(new Intent(getActivity(), FirebaseUserAccountSettingActivity.class));
     }
 }

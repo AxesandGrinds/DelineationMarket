@@ -1,15 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.fragment.MoviesFragment">
+    android:layout_height="wrap_content"
+    android:padding="@dimen/card_margin"
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/nav_movies"
-        android:gravity="center"/>
+        android:text="@string/user"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:layout_marginTop="@dimen/card_margin"
+        />
 
-</FrameLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lacationName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/location_name"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lacationLongitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/location_lng"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lacationLatitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/location_lat"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <TextView
+        android:id="@+id/textDetails"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/user"
+        android:layout_marginTop="@dimen/card_margin"
+        />
+
+
+    <Button
+        android:id="@+id/lacationSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="save"
+        android:layout_marginTop="@dimen/card_margin"
+        android:padding="@dimen/card_margin"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FFF"
+        android:background="@color/primaryColor"/>
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:layout_marginTop="@dimen/card_margin"
+        android:padding="@dimen/card_margin"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FFF"
+        android:background="@color/primaryColor"/>
+    <Button
+        android:id="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="login"
+        android:layout_marginTop="@dimen/card_margin"
+        android:padding="@dimen/card_margin"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FFF"
+        android:background="@color/primaryColor"/>
+    <Button
+        android:id="@+id/setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:layout_marginTop="@dimen/card_margin"
+        android:padding="@dimen/card_margin"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FFF"
+        android:background="@color/primaryColor"/>
+
+
+</LinearLayout>
