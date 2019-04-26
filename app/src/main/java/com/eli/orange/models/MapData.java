@@ -1,4 +1,4 @@
-package com.eli.orange.restApi.model;
+package com.eli.orange.models;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

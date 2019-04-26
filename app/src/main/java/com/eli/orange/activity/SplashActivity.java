@@ -24,4 +24,14 @@ public class SplashActivity extends AppCompatActivity {
         }, 10);
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
 }

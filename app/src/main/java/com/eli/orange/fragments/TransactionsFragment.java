@@ -8,7 +8,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +19,7 @@ import android.widget.TextView;
 import com.eli.orange.R;
 import com.eli.orange.activity.MainActivity;
 import com.eli.orange.activity.SignUpActivity;
-import com.eli.orange.restApi.model.MapData;
+import com.eli.orange.models.MapData;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;

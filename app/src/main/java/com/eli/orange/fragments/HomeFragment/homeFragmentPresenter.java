@@ -1,29 +1,21 @@
 package com.eli.orange.fragments.HomeFragment;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.eli.orange.activity.MainActivity;
-import com.eli.orange.restApi.model.Cities;
-import com.eli.orange.restApi.model.MapData;
-import com.eli.orange.restApi.model.UserData;
+import com.eli.orange.models.Cities;
+import com.eli.orange.models.MapData;
+import com.eli.orange.models.UserData;
+import com.eli.orange.other.MyClusterRenderer;
 import com.eli.orange.room.database.DatabaseClient;
 import com.eli.orange.room.entities.locationHistory;
-import com.eli.orange.room.entities.userInfo;
-import com.eli.orange.utils.PermissionAccessManager;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.PointOfInterest;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
-import com.google.maps.android.heatmaps.WeightedLatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,15 +35,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
-import androidx.core.content.ContextCompat;
-
 public class homeFragmentPresenter {
-    Context mCtx;
+    public  Context mCtx;
     private String dataId;
     private static final String TAG = (MainActivity.class).getSimpleName();
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private List<MapData> listData;
+    private MyClusterRenderer renderer;
 
     public homeFragmentPresenter(Context mCtx) {
         this.mCtx = mCtx;
@@ -182,6 +172,7 @@ public class homeFragmentPresenter {
 
 
         mClusterManager = new ClusterManager<MyItem>(mCtx,myMap);
+        renderer = new MyClusterRenderer(mCtx,myMap,mClusterManager);
 
         myMap.setOnCameraIdleListener(mClusterManager);
         myMap.setOnMarkerClickListener(mClusterManager);
@@ -191,7 +182,7 @@ public class homeFragmentPresenter {
         mFirebaseDatabase = mFirebaseInstance.getReference("places");
         ArrayList<Cities> lists = new ArrayList<Cities>();
         ClusterManager finalMClusterManager = mClusterManager;
-        mFirebaseInstance.getReference("places").child(FirebaseAuth.getInstance().getUid()).addValueEventListener(new ValueEventListener() {
+        mFirebaseInstance.getReference("places").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -199,6 +190,8 @@ public class homeFragmentPresenter {
                         MapData mapData = npsnapshot.getValue(MapData.class);
                         MyItem offsetItem = new MyItem(mapData.getLat(), mapData.getLng(),mapData.countryCode,"Snipet");
 
+                        renderer.setMinClusterSize(0);
+                        finalMClusterManager.setRenderer(renderer);
                         finalMClusterManager.addItem(offsetItem);
                         finalMClusterManager.setAnimation(false);
                         finalMClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {

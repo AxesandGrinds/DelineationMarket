@@ -83,4 +83,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 .show();
         //Other stuff in
     }
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

@@ -29,8 +29,13 @@ public class Constants {
 
     public static final int TAG_CODE_PERMISSION_LOCATION=INITIAL_REQUEST+1;
 
-    public static final String PLACES_API = "AIzaSyAIKwxGtOlFhy6YtwpxzwaQ3AqcANqnJ40";
+    public static final String PLACES_API = "AIzaSyCUK9VOnQvjV6F-tDlfVSj_mkNXLWHFYRY";
 
-    public static final int  AUTOCOMPLETE_REQUEST_CODE = 100;
+    public static final int  AUTOCOMPLETE_REQUEST_CODE = 1;
+
+
+    public static final String STORAGE_PATH_UPLOADS = "uploads/";
+
+    public static final String DATABASE_PATH_UPLOADS = "uploads";
 
 }

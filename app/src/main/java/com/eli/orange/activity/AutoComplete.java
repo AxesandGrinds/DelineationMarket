@@ -23,34 +23,5 @@ public class AutoComplete extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_notifications);
 
-
-
-        /**
-         * Initialize Places. For simplicity, the API key is hard-coded. In a production
-         * environment we recommend using a secure mechanism to manage API keys.
-         */
-        if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), PLACES_API);
-        }
-
-// Initialize the AutocompleteSupportFragment.
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                Log.i("TAG", "Place: " + place.getName() + ", " + place.getId());
-            }
-
-            @Override
-            public void onError(Status status) {
-                // TODO: Handle the error.
-                Log.i("TAG", "An error occurred: " + status);
-            }
-        });
     }
 }

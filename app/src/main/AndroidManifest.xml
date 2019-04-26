@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" android:protectionLevel="signature"/>
     <uses-permission
         android:name="android.permission.LOCATION_HARDWARE"
         tools:ignore="ProtectedPermissions" />
@@ -21,7 +22,8 @@
         android:roundIcon="@mipmap/ic_google_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".activity.FirebaseUserAccountSettingActivity"></activity>
+        <activity android:name=".activity.uploadFiles.ImageUploadActivity" />
+        <activity android:name=".activity.FirebaseUserAccountSettingActivity" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.ResetPasswordActivity" />
         <activity android:name=".activity.SignUpActivity" />
@@ -53,12 +55,16 @@
         <activity
             android:name=".activity.privacyPolicy.PrivacyPolicyActivity"
             android:noHistory="true" />
-        <activity android:name=".activity.AboutUsActivity" />
+        <activity
+            android:name=".activity.AboutUsActivity"
+            android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activity.AutoComplete" />
+        <activity android:name=".utils.GPSTracker" />
+        <activity android:name=".utils.ShowPopup" />
     </application>
 
 </manifest>

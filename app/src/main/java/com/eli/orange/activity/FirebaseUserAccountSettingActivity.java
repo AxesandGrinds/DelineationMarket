@@ -48,6 +48,7 @@ public class FirebaseUserAccountSettingActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +63,7 @@ public class FirebaseUserAccountSettingActivity extends AppCompatActivity {
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        //get current user
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user = auth.getCurrentUser();
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -121,7 +121,7 @@ public class FirebaseUserAccountSettingActivity extends AppCompatActivity {
                                         signOut();
                                         progressBar.setVisibility(View.GONE);
                                     } else {
-                                        showsnackbar("Failed to update email!");
+                                        showsnackbar("Failed to update email!"+task.getResult());
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
