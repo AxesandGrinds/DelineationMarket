@@ -15,11 +15,17 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.eli.orange.R;
+import com.eli.orange.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.supEmail)
@@ -34,13 +40,17 @@ public class SignUpActivity extends AppCompatActivity {
     Button signUpButton;
     @BindView(R.id.sup_progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.supUsername)
+    TextInputEditText signUpUserName;
     private FirebaseAuth auth;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -53,19 +63,25 @@ public class SignUpActivity extends AppCompatActivity {
      void signup(){
         String email = supEmail.getText().toString().trim();
         String password = supPassword.getText().toString().trim();
+        String username = signUpUserName.getText().toString().trim();
+
+        if (TextUtils.isEmpty(username)){
+            signUpUserName.setError("Enter UserName");
+            return;
+        }
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            supEmail.setError("Enter email address!");
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+            supPassword.setError("Enter password!");
             return;
         }
 
         if (password.length() < 6) {
-            Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+            supPassword.setError("Password too short, enter minimum 6 characters!");
             return;
         }
 
@@ -84,6 +100,9 @@ public class SignUpActivity extends AppCompatActivity {
                             Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            if (task.getResult().getUser().getUid() != null){
+                                addCreatedUserInUsersList(username,email,task.getResult().getUser().getUid());
+                            }
                             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                             finish();
                         }
@@ -97,5 +116,9 @@ public class SignUpActivity extends AppCompatActivity {
     void resetpass(){
         startActivity(new Intent(SignUpActivity.this, ResetPasswordActivity.class));
 
+    }
+    void addCreatedUserInUsersList(String username, String emailAddress,String userId){
+        User user = new User(username,emailAddress,userId,"https://cdn.pixabay.com/photo/2016/08/20/05/36/avatar-1606914__340.png");
+        databaseReference.child("users").child(userId).setValue(user);
     }
 }

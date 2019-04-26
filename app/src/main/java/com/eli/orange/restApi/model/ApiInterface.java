@@ -1,7 +1,7 @@
 package com.eli.orange.restApi.model;
 
 
-import java.util.List;
+import com.eli.orange.models.Cities;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

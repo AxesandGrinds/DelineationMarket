@@ -15,8 +15,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.eli.orange.R;
+import com.eli.orange.utils.SharedPreferencesManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,18 +37,22 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     private FirebaseAuth auth;
+    private SharedPreferencesManager sharedPreferencesManager;
+    private MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        sharedPreferencesManager = new SharedPreferencesManager(this);
+
 
         auth = FirebaseAuth.getInstance();
-       /* if (auth.getCurrentUser() != null) {
+        if (auth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
-        }*/
+        }
     }
     @OnClick(R.id.login_btn_signup)
     void signUp(){
@@ -84,13 +90,14 @@ public class LoginActivity extends AppCompatActivity {
                         // signed in user can be handled in the listener.
                         progressBar.setVisibility(View.GONE);
                         if (!task.isSuccessful()) {
-                            // there was an error
+
                             if (password.length() < 6) {
                                 loginPassword.setError(getString(R.string.minimum_password));
                             } else {
                                 Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                             }
                         } else {
+                            showsnackbar("Logged in Successful...");
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
@@ -99,5 +106,23 @@ public class LoginActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+    void showsnackbar(String message){
+        View parentLayout = findViewById(android.R.id.content);
+        Snackbar.make(parentLayout, message, Snackbar.LENGTH_LONG)
+                .setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                })
+                .setActionTextColor(getResources().getColor(android.R.color.holo_red_light ))
+                .show();
+        //Other stuff in
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

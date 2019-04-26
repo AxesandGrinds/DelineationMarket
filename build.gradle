@@ -36,7 +36,7 @@ ext{
     junitVersion = '4.12'
     supportLibraryVersion = '1.0.0-beta01'
     butterKnifeVersion = '10.1.0'
-    glideVersion = '4.8.0'
+    glideVersion = '4.9.0'
     retrofitVersion = '2.5.0'
     googleLocationAPI = '16.0.0'
     customTabsVersion = '1.0.0'
@@ -45,5 +45,5 @@ ext{
     stethoVersion = '1.5.1'
     firebaseVersion = '16.0.8'
     firebaseDatabase = '16.1.0'
-    firebaseAuth = '16.2.0'
+    firebaseAuth = '16.2.1'
 }

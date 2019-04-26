@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageView"
+        android:padding="@dimen/sp6">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/imageTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/image_title"
+            android:inputType="text"
+            android:maxLength="15" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:padding="@dimen/sp6">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/imageDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/_description"
+            android:inputType="text"
+            android:maxLength="500" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/desc"
+        android:layout_marginTop="@dimen/sp10"
+        android:padding="@dimen/sp6">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/imagePrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageDesc"
+            android:hint="@string/price"
+            android:inputType="numberDecimal"
+            android:maxLength="13" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="240sp"
+        android:layout_height="240sp"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10sp"
+        android:layout_marginEnd="@dimen/sp6"
+        android:contentDescription="@string/app_name"
+        android:maxHeight="300dp"
+        android:scaleType="fitXY" />
+
+
+    <Button
+        android:id="@+id/btnUpload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/price"
+        android:layout_centerHorizontal="true"
+        android:text="@string/nav_upload"
+        android:textAllCaps="false"
+        android:textAppearance="?android:textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/textCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_pick"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="@dimen/sp6"
+        android:text="Category" />
+    <TextView
+        android:id="@+id/textUploade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnUpload"
+        android:layout_alignParentStart="true"
+        android:padding="@dimen/card_margin"
+        android:layout_marginStart="@dimen/sp6"
+        android:text="View Uploaded Image" />
+
+
+    <Spinner
+        android:id="@+id/spinnerCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textCategory"
+        android:layout_gravity="center"
+        android:layout_marginLeft="5sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5sp"
+        android:backgroundTint="@color/primaryDarkColor">
+
+    </Spinner>
+
+    <Button
+        android:id="@+id/btn_pick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sp6"
+        android:layout_marginTop="20dp"
+        android:padding="@dimen/sp6"
+        android:text="Select Image"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textAppearance="?android:textAppearanceSmall"/>
+</RelativeLayout>
+
+

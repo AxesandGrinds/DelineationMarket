@@ -1,69 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
-    android:gravity="center_horizontal"
-    android:background="#F6F6F6"
-    android:orientation="vertical">
+    android:gravity="center_horizontal">
 
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switchGps"
-        style="@style/SwitchCompatStyle"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/primaryColor"
-        android:text="Enable/Disable Device Location" />
+        android:layout_height="match_parent"
+        android:background="#F6F6F6"
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:text="Tap to switch device location on/off" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/primaryColor"/>
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switchButton2"
-        style="@style/SwitchCompatStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/primaryColor"
-        android:text="Android Switch Button 2" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:text="Android Switch Button" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/primaryColor"/>
-
-    <TextView
-        android:id="@+id/textViewStting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="@dimen/card_margin"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:text="Change Online Account Settings" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/primaryColor"/>
+        android:padding="@dimen/activity_vertical_margin"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
 
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchGps"
+            style="@style/SwitchCompatStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable/Disable Device Location"
+            android:textColor="@color/primaryColor" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tap to switch device location on/off"
+            android:textAppearance="?android:textAppearanceSmall" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/primaryColor" />
+
+        <include layout="@layout/activity_firebase_user_account_setting" />
+
+
+    </LinearLayout>
+</ScrollView>

@@ -2,75 +2,51 @@ package com.eli.orange.fragments.HomeFragment;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.eli.orange.R;
+import com.eli.orange.activity.MainActivity;
 import com.eli.orange.fragments.BaseFragmentActivity;
-import com.eli.orange.restApi.model.ApiClient;
 import com.eli.orange.restApi.model.ApiInterface;
-import com.eli.orange.restApi.model.Cities;
-import com.eli.orange.utils.Constants;
+import com.eli.orange.models.Cities;
 import com.eli.orange.utils.PermissionAccessManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PointOfInterest;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.gson.Gson;
-import com.google.maps.android.clustering.Cluster;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.maps.android.clustering.ClusterManager;
-import com.google.maps.android.heatmaps.WeightedLatLng;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import static android.content.Context.LOCATION_SERVICE;
 import static android.widget.Toast.*;
-import static com.eli.orange.utils.Constants.BASE_LAT_LANG;
-import static com.eli.orange.utils.Constants.MAX_ZOOM_PREFFERENCE;
-import static com.eli.orange.utils.Constants.MELBOURNE;
-import static com.eli.orange.utils.Constants.MIN_ZOOM_PREFFERENCE;
-import static com.eli.orange.utils.Constants.REQUEST_ID_ACCESS_COURSE_FINE_LOCATION;
 import static com.eli.orange.utils.Constants.TAG_CODE_PERMISSION_LOCATION;
 
 /**
@@ -89,6 +65,7 @@ public class homeFragment extends BaseFragmentActivity implements
     private List<Cities> list = null;
     private ClusterManager<MyItem> mClusterManager;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private FirebaseAuth auth;
 
 
     public homeFragment() {
@@ -100,10 +77,13 @@ public class homeFragment extends BaseFragmentActivity implements
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
+
+
         ButterKnife.bind(this, view);
         permissionAccessManager = new PermissionAccessManager(getContext());
         presenter = new homeFragmentPresenter(getContext());
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+        auth = FirebaseAuth.getInstance();
 
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "id");
@@ -152,75 +132,9 @@ public class homeFragment extends BaseFragmentActivity implements
             public void onMapLoaded() {
                 // MapData loaded. Dismiss this dialog, removing it from the screen.
                 hideProgressBar();
-                presenter.readMapData(mClusterManager,myMap);
-                /*mClusterManager = new ClusterManager<MyItem>(getContext(),myMap);
-
-                myMap.setOnCameraIdleListener(mClusterManager);
-                myMap.setOnMarkerClickListener(mClusterManager);
-                try {
-                    list = presenter.readItems(R.raw.cities);
-                    for (int i =0; i<list.size(); i++){
-                        //Log.d("data",list.get(i).getCountry());
-                        LatLng sydney = new LatLng(list.get(i).getLatitude(), list.get(i).getLongitude());
-                        MyItem offsetItem = new MyItem(list.get(i).getLatitude(), list.get(i).getLongitude(),list.get(i).getCountry(),list.get(i).getCountryName());
-                        mClusterManager.addItem(offsetItem);
-                        mClusterManager.setAnimation(false);
-                        mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
-                            @Override
-                            public boolean onClusterClick(Cluster<MyItem> cluster) {
-                                return false;
-                            }
-                        });
-                        mClusterManager.cluster();
-
-                        /*myMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-                            @Override
-                            public View getInfoWindow(Marker marker) {
-
-                                InfoWindowData info = new InfoWindowData();
-                                info.setImage("logoassets");
-                                info.setHotel("Tanzania");
-                                info.setFood("Food : all types of restaurants available");
-                                info.setTransport("Reach the site by bus, car and train.");
-
-                                CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(getContext());
-                                myMap.setInfoWindowAdapter(customInfoWindow);
-                                marker.setTag(info);
-                                marker.showInfoWindow();
-                                return null;
-                            }
-
-                            @Override
-                            public View getInfoContents(Marker marker) {
-                                return null;
-                            }
-                        });*/
-
-
-
-                        /*MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.position(sydney)
-                                .title(list.get(i).getCountry())
-                                .snippet(list.get(i).getCountryName());
-
-
-                        InfoWindowData info = new InfoWindowData();
-                        info.setImage("logoassets");
-                        info.setHotel("Tanzania"+"("+list.get(i).getCountry()+")");
-                        info.setFood("Food : all types of restaurants available");
-                        info.setTransport("Reach the site by bus, car and train.");
-
-                        CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(context);
-                        myMap.setInfoWindowAdapter(customInfoWindow);
-
-                        Marker m = myMap.addMarker(markerOptions);
-                        m.setTag(info);
-                        m.showInfoWindow();*/
-
-                    /*}
-                } catch (JSONException e) {
-                    Toast.makeText(getContext(), "Problem reading list of locations.", Toast.LENGTH_LONG).show();
-                }*/
+                if (auth.getCurrentUser() != null) {
+                    presenter.readMapData(mClusterManager, myMap);
+                }else
 
 
 

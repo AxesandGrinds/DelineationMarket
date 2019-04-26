@@ -1,17 +1,26 @@
 package com.eli.orange.activity;
 
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 
 import com.eli.orange.activity.privacyPolicy.PrivacyPolicyActivity;
-import com.eli.orange.fragments.bottomSheetFragment.BottomSheetFragment;
+import com.eli.orange.fragments.LicencesFragment;
+import com.eli.orange.fragments.BottomSheetFragment;
+import com.eli.orange.fragments.uploadsFragment;
+import com.eli.orange.fragments.userProfileFragment;
+import com.eli.orange.models.User;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.core.view.GravityCompat;
@@ -28,17 +37,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.eli.orange.R;
 import com.eli.orange.fragments.HomeFragment.homeFragment;
-import com.eli.orange.fragments.NotificationsFragment;
 import com.eli.orange.fragments.HistoryFragment;
 import com.eli.orange.fragments.SettingsFragment;
-import com.eli.orange.fragments.TransactionsFragment;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends BaseActivity {
 
@@ -62,7 +74,6 @@ public class MainActivity extends BaseActivity {
     BottomSheetBehavior sheetBehavior;
 
 
-    // urls to load navigation header background image
     // and profile image
     private static final String urlNavHeaderBg = "https://i0.wp.com/www.newhopeschool.org/wp-content/uploads/2017/10/2560x1440-teal-blue-solid-color-background.jpg";
     private static final String urlProfileImg = "https://cdn.pixabay.com/photo/2016/08/20/05/36/avatar-1606914__340.png";
@@ -72,11 +83,15 @@ public class MainActivity extends BaseActivity {
 
     // tags used to attach the fragments
     private static final String TAG_HOME = "home";
-    private static final String TAG_PHOTOS = "Transactions";
+    private static final String TAG_PHOTOS = "User Profile";
     private static final String TAG_MOVIES = "Accounts";
     private static final String TAG_NOTIFICATIONS = "notifications";
+    private static final String TAG_UPLOADS = "Uploads";
     private static final String TAG_SETTINGS = "settings";
+    private static final String TAG_LICENCES = "Licences";
     public static String CURRENT_TAG = TAG_HOME;
+
+    private DatabaseReference databaseReference;
 
     // toolbar titles respected to selected nav menu item
     private String[] activityTitles;
@@ -94,10 +109,14 @@ public class MainActivity extends BaseActivity {
 
 
         auth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference("users");
         setSupportActionBar(toolbar);
+        //new BottomSheetFragment().show(getSupportFragmentManager(), new BottomSheetFragment().getTag());
+
 
         mHandler = new Handler();
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
+
 
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -139,20 +158,28 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
+                bottomSheetFragment.setStyle(DialogFragment.STYLE_NO_FRAME, R.style.AppBottomSheetDialogTheme);
+                final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
                 if (auth.getCurrentUser() == null) {
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                } else if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    buildAlertMessageNoGps();
                 } else {
                     bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
                 }
+
+
             }
 
 
         });
 
         // load nav menu header data
-        loadNavHeader();
+        if (auth.getCurrentUser() != null) {
+            loadNavHeader();
+        }
 
         // initializing navigation menu
         setUpNavigationView();
@@ -171,19 +198,20 @@ public class MainActivity extends BaseActivity {
      */
     private void loadNavHeader() {
         // name, website
-        txtName.setText("Elirehema Paul");
-        txtWebsite.setText(Html.fromHtml("https://twitter.com/e_paul_"));
+        databaseReference.child(auth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    updateUI(dataSnapshot);
+                }
+            }
 
-        // loading header background image
-        Glide.with(this).load(urlNavHeaderBg)
-                .into(imgNavHeaderBg);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        // Loading profile image
-        Glide.with(this)
-                .load(urlProfileImg)
-                .apply(RequestOptions.circleCropTransform())
-                .thumbnail(0.5f)
-                .into(imgProfile);
+            }
+        });
+
 
         // showing dot next to notifications label
         navigationView.getMenu().getItem(3).setActionView(R.layout.menu_dot);
@@ -253,18 +281,21 @@ public class MainActivity extends BaseActivity {
                 HistoryFragment historyFragment = new HistoryFragment();
                 return historyFragment;
             case 2:
-                // movies fragment
-                TransactionsFragment moviesFragment = new TransactionsFragment();
-                return moviesFragment;
+                // user profile fragment
+                userProfileFragment userProfileFragment = new userProfileFragment();
+                return userProfileFragment;
             case 3:
-                // notifications fragment
-                NotificationsFragment notificationsFragment = new NotificationsFragment();
-                return notificationsFragment;
+                // uploads fragment
+                uploadsFragment uploadsFragment = new uploadsFragment();
+                return uploadsFragment;
 
             case 4:
                 // settings fragment
                 SettingsFragment settingsFragment = new SettingsFragment();
                 return settingsFragment;
+            case 5:
+                LicencesFragment licencesFragment = new LicencesFragment();
+                return licencesFragment;
             default:
                 return new homeFragment();
         }
@@ -303,11 +334,15 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.nav_notifications:
                         navItemIndex = 3;
-                        CURRENT_TAG = TAG_NOTIFICATIONS;
+                        CURRENT_TAG = TAG_UPLOADS;
                         break;
                     case R.id.nav_settings:
                         navItemIndex = 4;
                         CURRENT_TAG = TAG_SETTINGS;
+                        break;
+                    case R.id.nav_licences:
+                        navItemIndex = 5;
+                        CURRENT_TAG = TAG_LICENCES;
                         break;
                     case R.id.nav_about_us:
                         // launch new intent instead of loading fragment
@@ -408,20 +443,21 @@ public class MainActivity extends BaseActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-            Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
+            auth.signOut();
+            showsnackbar("Logged Out Successfully");
             return true;
         }
 
         // user is in notifications fragment
         // and selected 'Mark all as Read'
         if (id == R.id.action_mark_all_read) {
-            Toast.makeText(getApplicationContext(), "All notifications marked as read!", Toast.LENGTH_LONG).show();
+            showsnackbar("All notifications marked as read!");
         }
 
         // user is in notifications fragment
         // and selected 'Clear All'
         if (id == R.id.action_clear_notifications) {
-            Toast.makeText(getApplicationContext(), "Clear all notifications!", Toast.LENGTH_LONG).show();
+            showsnackbar("Clear all notifications!");
         }
 
         return super.onOptionsItemSelected(item);
@@ -434,4 +470,55 @@ public class MainActivity extends BaseActivity {
         else
             fab.hide();
     }
+
+    void showsnackbar(String message) {
+        View parentLayout = findViewById(android.R.id.content);
+        Snackbar.make(parentLayout, message, Snackbar.LENGTH_LONG)
+                .setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                })
+                .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                .show();
+        //Other stuff in
+    }
+
+    void updateUI(DataSnapshot dataSnapshot) {
+        User user = dataSnapshot.getValue(User.class);
+        txtName.setText(user.getUsername());
+        txtWebsite.setText(Html.fromHtml(user.getEmail()));
+
+        // loading header background image
+        Glide.with(getBaseContext()).load(urlNavHeaderBg)
+                .into(imgNavHeaderBg);
+
+        // Loading profile image
+        Glide.with(getBaseContext())
+                .load(user.getUserImageUrl())
+                .apply(RequestOptions.circleCropTransform())
+                .thumbnail(0.5f)
+                .into(imgProfile);
+    }
+
+    public void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setTitle("Location Updates")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 }
