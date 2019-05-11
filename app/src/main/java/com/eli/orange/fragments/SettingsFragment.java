@@ -14,6 +14,9 @@ import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+import uk.co.deanwild.materialshowcaseview.shape.OvalShape;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +36,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import static com.eli.orange.utils.Constants.SHOWCASE_ID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -86,6 +91,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         ButterKnife.bind(this, view);
 
         statusCheck();
+        //openMaterialSHowCaseView();
 
         gpsswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -100,7 +106,9 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             }
         });
 
-        //get firebase auth instance
+        /*
+        get firebase auth instance
+        */
         auth = FirebaseAuth.getInstance();
 
         user = auth.getCurrentUser();
@@ -360,5 +368,28 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
                 .show();
         //Other stuff in
+    }
+    void openMaterialSHowCaseView(){
+        // sequence example
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500); // half second between each showcase view
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(gpsswitch,
+                "Tap here to swich On/Off the Gps Settings", "GOT IT");
+
+        sequence.addSequenceItem(btnChangePassword,
+                "Click here to change your account loggin password", "GOT IT");
+
+        sequence.addSequenceItem(btnChangeEmail,
+                "Click here to request your registered email change", "GOT IT");
+        sequence.addSequenceItem(btnRemoveUser,
+                "Click here to completely deletion of your account and data. Warning this process in Undone", "GOT IT");
+
+        sequence.start();
+
     }
 }

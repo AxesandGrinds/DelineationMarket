@@ -38,4 +38,9 @@ public class Constants {
 
     public static final String DATABASE_PATH_UPLOADS = "uploads";
 
+    //ShocaseIds
+    public static final String SHOWCASE_ID = "SETTING_FRAGMENT";
+
+    public static final String USER_PROFILE_AVATAR = "https://gazettereview.com/wp-content/uploads/2016/03/facebook-avatar.jpg";
+
 }

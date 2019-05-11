@@ -2,6 +2,14 @@ package com.eli.orange.fragments.HomeFragment;
 
 public class InfoWindowData {
     private String image;
+
+    public InfoWindowData(final String image, final String hotel, final String food, final String transport) {
+        this.image = image;
+        this.hotel = hotel;
+        this.food = food;
+        this.transport = transport;
+    }
+
     private String hotel;
     private String food;
     private String transport;

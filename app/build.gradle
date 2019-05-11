@@ -81,6 +81,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:16.1.0'
     implementation 'com.firebaseui:firebase-ui-storage:3.3.0'
 
+    //MterialSearchViewShow
+    implementation 'com.github.deano2390:MaterialShowcaseView:1.3.4@aar'
+
+    //FloatingSearchDialog
+    implementation 'com.github.arimorty:floatingsearchview:2.1.1'
+
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

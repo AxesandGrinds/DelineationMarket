@@ -21,6 +21,16 @@
     <string name="nav_settings">Settings</string>
     <string name="nav_about_us">About Us</string>
 
+    <string-array name="business_option_array">
+        <item>Select Your Business Type Option</item>
+        <item>Real Estate</item>
+        <item>Super Markets</item>
+        <item>Food and Drinks</item>
+        <item>Gym and Fitness</item>
+        <item>Beauty and Saloon</item>
+        <item>Hotels and G.House</item>
+    </string-array>
+
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">
         <item>Home</item>
@@ -41,10 +51,7 @@
         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-        deserunt mollit anim id est laborum.</string>
+        nisi ut aliquip ex ea commodo consequat.</string>
     <string name="add_new_account_profile">Create New Account</string>
     <string name="username">username</string>
     <string name="business_name">Business Name</string>
@@ -96,4 +103,12 @@
     <string name="price">Price</string>
     <string name="nav_upload">Uploads</string>
     <string name="nav_history">Places</string>
+    <string name="fname_lname">Firstname</string>
+    <string name="openning_hours">Opening Time</string>
+    <string name="closing_hours">Closing Time</string>
+    <string name="contact_phone">Contact Number</string>
+    <string name="opening_date_is_required">Opening Time in Mandatory</string>
+    <string name="closing_time_is_manadatory">Clossing Time is Mandatory</string>
+    <string name="email_is_required">Email Address is mandatory</string>
+    <string name="phone_is_required">Phone no. is required</string>
 </resources>

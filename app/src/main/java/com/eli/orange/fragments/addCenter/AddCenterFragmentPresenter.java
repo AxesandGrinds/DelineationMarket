@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.eli.orange.models.InfoWindowDatas;
 import com.eli.orange.models.MapData;
 import com.eli.orange.models.UserMapData;
 import com.eli.orange.room.database.DatabaseClient;
@@ -54,7 +55,7 @@ public class AddCenterFragmentPresenter {
     }
     public interface View{
         void saveToLocalStorage();
-        void isvalidForm();
+
     }
     public void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -73,14 +74,13 @@ public class AddCenterFragmentPresenter {
         final AlertDialog alert = builder.create();
         alert.show();
     }
-    public void createItem(String username,String businessType, Double lat, Double lng, String id) {
+    public void createItem(@NonNull  InfoWindowDatas infoWindowDatas) {
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase =  mFirebaseInstance.getReference("places");
 
-        userMapData = new UserMapData(username,businessType,lat,lng);
 
-        mFirebaseDatabase.child(id).child(FirebaseAuth.getInstance().getUid()).setValue(userMapData).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mFirebaseDatabase.child(infoWindowDatas.getMCityName()).child(infoWindowDatas.getBusinessTYpe()).child(FirebaseAuth.getInstance().getUid()).setValue(infoWindowDatas).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Toast.makeText(context,"Added Succesful",Toast.LENGTH_LONG).show();

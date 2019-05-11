@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.eli.orange.R;
 import com.eli.orange.models.User;
+import com.eli.orange.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -118,7 +119,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
     void addCreatedUserInUsersList(String username, String emailAddress,String userId){
-        User user = new User(username,emailAddress,userId,"https://cdn.pixabay.com/photo/2016/08/20/05/36/avatar-1606914__340.png");
+        User user = new User(username,emailAddress,userId, Constants.USER_PROFILE_AVATAR);
         databaseReference.child("users").child(userId).setValue(user);
     }
 }
