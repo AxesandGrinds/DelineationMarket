@@ -124,12 +124,6 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.View
             clickListener.onItemClick(getAdapterPosition(), v);
             Context context = v.getContext();
 
-            Intent intent1 = new Intent(context, PrivacyPolicyActivity.class);
-            intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent1.putExtra("link", "");
-
-            context.startActivity(intent1);
-
         }
 
         @Override

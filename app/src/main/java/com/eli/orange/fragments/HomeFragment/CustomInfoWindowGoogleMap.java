@@ -2,17 +2,33 @@ package com.eli.orange.fragments.HomeFragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eli.orange.R;
+import com.eli.orange.models.InfoWindowDatas;
+import com.eli.orange.models.MyItem;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class CustomInfoWindowGoogleMap implements GoogleMap.InfoWindowAdapter {
 
     private Context context;
+    @BindView(R.id.txtLocMarkerName)
+    TextView txtMarkerName;
+    @BindView(R.id.txtLocMarkerEmail)
+    TextView txtEmailAddress;
+    @BindView(R.id.txtLocMarkerPhone)
+    TextView txtPhoneNumber;
+    @BindView(R.id.txtOpenningHoursValue)
+    TextView txtOpeningHours;
 
     public CustomInfoWindowGoogleMap(Context ctx){
         context = ctx;
@@ -26,28 +42,22 @@ public class CustomInfoWindowGoogleMap implements GoogleMap.InfoWindowAdapter {
     @Override
     public View getInfoContents(Marker marker) {
         View view = ((Activity)context).getLayoutInflater()
-                .inflate(R.layout.custorm_info_window_layout, null);
+                .inflate(R.layout.custom_info_window, null);
+        ButterKnife.bind(this,view);
 
-        TextView name_tv = view.findViewById(R.id.name);
-        TextView details_tv = view.findViewById(R.id.details);
-        ImageView img = view.findViewById(R.id.pic);
 
-        TextView hotel_tv = view.findViewById(R.id.hotels);
-        TextView food_tv = view.findViewById(R.id.food);
-        TextView transport_tv = view.findViewById(R.id.transport);
+        InfoWindowDatas infoWindowData = (InfoWindowDatas)marker.getTag();
 
-        name_tv.setText(marker.getTitle());
-        details_tv.setText(marker.getSnippet());
+        if (infoWindowData != null) {
 
-        InfoWindowData infoWindowData = (InfoWindowData) marker.getTag();
-
-        int imageId = context.getResources().getIdentifier(infoWindowData.getImage().toLowerCase(),"drawable", context.getPackageName());
-        img.setImageResource(imageId);
-
-        hotel_tv.setText(infoWindowData.getHotel());
-        food_tv.setText(infoWindowData.getFood());
-        transport_tv.setText(infoWindowData.getTransport());
+            txtMarkerName.setText(infoWindowData.getMBusinessName());
+            txtEmailAddress.setText(infoWindowData.getMLocationEmail());
+            txtPhoneNumber.setText(infoWindowData.getMLocationPhone());
+            txtOpeningHours.setText(infoWindowData.getMOpenignHours() + " to " + infoWindowData.getMClossingHours());
+        }
 
         return view;
     }
+
+
 }

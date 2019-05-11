@@ -24,46 +24,47 @@
                 android:textAppearance="?android:textAppearanceSmall"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imageView"/>
-            <View
-                android:id="@+id/view"
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:layout_marginTop="1dp"
-                android:background="@color/places_autocomplete_error_message"
-                app:layout_constraintTop_toBottomOf="@id/textViewName"
-                app:layout_constraintStart_toStartOf="@id/textViewName"/>
+
             <TextView
                 android:id="@+id/textViewDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="6"
-                android:layout_marginStart="100dp"
-                android:padding="@dimen/card_margin"
+                android:textColor="#48514F"
+                android:layout_marginStart="80dp"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:text="@string/long_text_example"
-                app:layout_constraintTop_toBottomOf="@id/view"
+                app:layout_constraintTop_toBottomOf="@id/textViewName"
                 app:layout_constraintStart_toStartOf="@id/textViewName"/>
             <TextView
                 android:id="@+id/textViewprice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Price 5000"
+                android:text="$5000"
                 android:textStyle="bold"
-                android:textColor="#FF0000"
-
-                android:background="#EBEBEB"
+                android:layout_marginTop="@dimen/card_margin"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/textViewDescription"/>
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price"
+                android:layout_marginTop="@dimen/card_margin"
+                android:textAppearance="?android:textAppearanceSmall"
+                app:layout_constraintStart_toStartOf="@id/textViewName"
+                app:layout_constraintTop_toBottomOf="@id/textViewDescription"/>
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_below="@id/textViewName"
                 android:src="@mipmap/ic_launcher_foreground"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
                 android:id="@+id/uploadDelete"

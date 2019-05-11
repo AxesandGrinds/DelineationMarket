@@ -1,4 +1,4 @@
-package com.eli.orange.other;
+package com.eli.orange.fragments.HomeFragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,7 +6,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 
 import com.eli.orange.R;
-import com.eli.orange.fragments.HomeFragment.MyItem;
+import com.eli.orange.models.MyItem;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -46,7 +46,7 @@ public class MyClusterRenderer extends DefaultClusterRenderer<MyItem> {
     @Override
     protected void onBeforeClusterRendered(Cluster<MyItem> cluster, MarkerOptions markerOptions) {
         final Drawable clusterIcon = context.getResources().getDrawable(R.drawable.map_marker);
-        clusterIcon.setColorFilter(context.getResources().getColor(android.R.color.holo_orange_light), PorterDuff.Mode.SRC_ATOP);
+        clusterIcon.setColorFilter(context.getResources().getColor(android.R.color.holo_red_dark), PorterDuff.Mode.SRC_ATOP);
 
         mClusterIconGenerator.setBackground(clusterIcon);
 

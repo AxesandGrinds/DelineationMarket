@@ -8,12 +8,16 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.eli.orange.activity.privacyPolicy.PrivacyPolicyActivity;
 import com.eli.orange.fragments.LicencesFragment;
 import com.eli.orange.fragments.BottomSheetFragment;
 import com.eli.orange.fragments.uploadsFragment;
 import com.eli.orange.fragments.userProfileFragment;
+import com.eli.orange.models.Upload;
 import com.eli.orange.models.User;
+import com.eli.orange.utils.Constants;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -22,11 +26,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -50,7 +56,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
@@ -65,6 +75,9 @@ public class MainActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+    @BindView(R.id.floating_search_view)
+    FloatingSearchView floatingSearchView;
+
     private FirebaseAuth auth;
 
 
@@ -90,6 +103,8 @@ public class MainActivity extends BaseActivity {
     private static final String TAG_SETTINGS = "settings";
     private static final String TAG_LICENCES = "Licences";
     public static String CURRENT_TAG = TAG_HOME;
+    private BottomSheetFragment bottomSheetFragment =null;
+    private List<Upload> uploads;
 
     private DatabaseReference databaseReference;
 
@@ -99,6 +114,7 @@ public class MainActivity extends BaseActivity {
     // flag to load home fragment when user presses back key
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
+    private  ActionBarDrawerToggle actionBarDrawerToggle;
 
 
     @Override
@@ -110,12 +126,55 @@ public class MainActivity extends BaseActivity {
 
         auth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        toolbar.getMenu().clear();
         setSupportActionBar(toolbar);
-        //new BottomSheetFragment().show(getSupportFragmentManager(), new BottomSheetFragment().getTag());
 
+        uploads = new ArrayList<>();
+
+        //new BottomSheetFragment().show(getSupportFragmentManager(), new BottomSheetFragment().getTag());
+        floatingSearchView.attachNavigationDrawerToMenuButton(drawer);
+        floatingSearchView.setVisibility(View.GONE);
+
+        bottomSheetFragment = new BottomSheetFragment();
 
         mHandler = new Handler();
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
+
+
+        floatingSearchView.attachNavigationDrawerToMenuButton(drawer);
+        /*
+        * Populate FloatingSearchView With List Query
+        * this will excute a function from @HomeFragment to display the list of available area in the map
+        */
+        floatingSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, String newQuery) {
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS).child(auth.getCurrentUser().getUid());
+
+                Query searchQuery = databaseReference.orderByChild("title").equalTo(newQuery);
+                searchQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            // dataSnapshot is the "issue" node with all children with id 0
+                            for (DataSnapshot data : dataSnapshot.getChildren()) {
+                                Upload upload = data.getValue(Upload.class);
+                                uploads.add(upload);
+                                //floatingSearchView.swapSuggestions(uploads);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+                //floatingSearchView.swapSuggestions(newSuggestions);
+            }
+        });
 
 
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -157,20 +216,21 @@ public class MainActivity extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
-                bottomSheetFragment.setStyle(DialogFragment.STYLE_NO_FRAME, R.style.AppBottomSheetDialogTheme);
-                final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                if (!bottomSheetFragment.isVisible()) {
+                    bottomSheetFragment.setStyle(DialogFragment.STYLE_NO_FRAME, R.style.AppBottomSheetDialogTheme);
+                    final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
-                if (auth.getCurrentUser() == null) {
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                } else if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    buildAlertMessageNoGps();
-                } else {
-                    bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+                    if (auth.getCurrentUser() == null) {
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    } else if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                        buildAlertMessageNoGps();
+                    } else {
+                        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+                    }
+
+
                 }
-
-
             }
 
 
@@ -373,7 +433,7 @@ public class MainActivity extends BaseActivity {
         });
 
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer) {
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -393,6 +453,7 @@ public class MainActivity extends BaseActivity {
 
         //calling sync state is necessary or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
     }
 
     @Override
@@ -430,6 +491,7 @@ public class MainActivity extends BaseActivity {
         // when fragment is notifications, load the menu created for notifications
         if (navItemIndex == 3) {
             getMenuInflater().inflate(R.menu.notifications, menu);
+
         }
         return true;
     }
@@ -519,6 +581,19 @@ public class MainActivity extends BaseActivity {
                 });
         final AlertDialog alert = builder.create();
         alert.show();
+    }
+    public void replaceFragments(Class fragmentClass) {
+        Fragment fragment = null;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.frame, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
 }

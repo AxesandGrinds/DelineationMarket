@@ -1,12 +1,17 @@
 package com.eli.orange.fragments;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import com.eli.orange.R;
 import com.eli.orange.activity.LoginActivity;
@@ -24,23 +29,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class uploadsFragment extends Fragment {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class GetUserUploadsFragment extends Fragment {
     //0746 31 9332
 
     //adapter object
-    private ContentsAdapter adapter;
+    private UserUploadsContentsAdapter adapter;
 
 
     //database reference
@@ -62,7 +62,7 @@ public class uploadsFragment extends Fragment {
 
     private View view;
 
-    public uploadsFragment() {
+    public GetUserUploadsFragment() {
         // Required empty public constructor
     }
 
@@ -77,8 +77,9 @@ public class uploadsFragment extends Fragment {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ContentsAdapter(getContext());
+        adapter = new UserUploadsContentsAdapter(getContext());
         //new requestUploadedDataFromFireBaseRealTimeDatabase().execute();
+        openUpload.setVisibility(View.GONE);
 
 
         progressDialog = new ProgressDialog(getContext());
@@ -91,52 +92,53 @@ public class uploadsFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() == null) {
             startActivity(new Intent(getContext(), LoginActivity.class));
-        } else {
-
-            mDatabase = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS).child(firebaseAuth.getCurrentUser().getUid());
-
-            //adding an event listener to fetch values
-            mDatabase.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-
-                    if (snapshot.exists()) {
-                        uploads.clear();
-
-                        //iterating through all the values in database
-                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                            Upload upload = postSnapshot.getValue(Upload.class);
-                            uploads.add(upload);
-                            adapter.addItems(uploads);
-
-                        }
-
-                        progressDialog.dismiss();
-                        recyclerView.setAdapter(adapter);
-                    } else {
-                        showsnackbar("No data available...!!!");
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    progressDialog.dismiss();
-                }
-            });
+        } else if(getArguments().getString("USER_ID")!=null) {
+            upDateUI();
+        }
+        else {
+            showsnackbar("Unknown Request");
         }
 
 
         return view;
 
     }
-    @OnClick(R.id.fabOpenUpload)
-    void openuploaded(){
-        getContext().startActivity( new Intent(getContext(), ImageUploadActivity.class));
+
+    void upDateUI(){
+        mDatabase = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS).child(getArguments().getString("USER_ID"));
+
+        //adding an event listener to fetch values
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+                if (snapshot.exists()) {
+                    uploads.clear();
+
+                    //iterating through all the values in database
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        Upload upload = postSnapshot.getValue(Upload.class);
+                        uploads.add(upload);
+                        adapter.addItems(uploads);
+
+                    }
+
+                    progressDialog.dismiss();
+                    recyclerView.setAdapter(adapter);
+                } else {
+                    showsnackbar("No data available...!!!");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                progressDialog.dismiss();
+            }
+        });
     }
 
     void showsnackbar(String message) {
-        progressDialog.dismiss();
-        View parentLayout = getActivity().findViewById(android.R.id.content);
+        View parentLayout = view.findViewById(android.R.id.content);
         Snackbar.make(parentLayout, message, Snackbar.LENGTH_LONG)
                 .setAction("CLOSE", new View.OnClickListener() {
                     @Override
@@ -148,22 +150,5 @@ public class uploadsFragment extends Fragment {
                 .show();
         //Other stuff in
     }
-    class requestUploadedDataFromFireBaseRealTimeDatabase extends AsyncTask<Void, Void,Void> {
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            //dismissing the progress dialog
-            progressDialog.dismiss();
-            recyclerView.setAdapter(adapter);
-        }
-    }
-
 
 }

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:padding="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <ImageView
+        android:id="@+id/imgCancelMapMarker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/close" />
+
+    <TextView
+        android:id="@+id/txtLocMarkerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Developine Software"
+        android:textStyle="bold"
+        android:textSize="10sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtLocMarkerAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Software Technology Park Islamabad"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@id/imgCancelMapMarker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtLocMarkerName" />
+
+    <ImageView
+        android:id="@+id/imgLocMarkerEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtLocMarkerAddress"
+        android:src="@drawable/ic_email_black_24dp" />
+
+    <TextView
+        android:id="@+id/txtLocMarkerEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="6dp"
+        android:text="developine.com@gmail.com"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/imgLocMarkerEmail"
+        app:layout_constraintTop_toBottomOf="@id/txtLocMarkerAddress" />
+
+    <ImageView
+        android:id="@+id/imgLocMarkerPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtLocMarkerEmail"
+        android:src="@drawable/ic_call_black_24dp" />
+
+    <TextView
+        android:id="@+id/txtLocMarkerPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="92 333 8456598"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/imgLocMarkerPhone"
+        app:layout_constraintTop_toBottomOf="@+id/txtLocMarkerEmail" />
+
+    <TextView
+        android:id="@+id/txtOpenningHoursLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/card_margin"
+        android:text="@string/openning_hours"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintStart_toStartOf="@+id/txtLocMarkerName"
+        app:layout_constraintTop_toBottomOf="@+id/txtLocMarkerPhone" />
+
+    <TextView
+        android:id="@+id/txtOpenningHoursValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="@dimen/card_margin"
+        android:text="8 AM to 6 PM"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@id/txtOpenningHoursLabel"
+        app:layout_constraintTop_toBottomOf="@+id/txtOpenningHoursLabel" />
+
+    <TextView
+        android:id="@+id/txtBranchMarkerLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textSize="10sp"
+        android:text="Branch Code"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtOpenningHoursValue" />
+
+    <TextView
+        android:id="@+id/txtBranchMarkerValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="@dimen/card_margin"
+        android:text="0404"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@id/txtBranchMarkerLabel"
+        app:layout_constraintTop_toBottomOf="@+id/txtBranchMarkerLabel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
