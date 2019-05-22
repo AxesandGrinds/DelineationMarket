@@ -34,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         app:fabSize="mini"
+        android:visibility="gone"
         android:layout_margin="@dimen/card_margin"
         app:backgroundTint="@color/primaryColor"
         android:src="@drawable/crosshairs_gps"
