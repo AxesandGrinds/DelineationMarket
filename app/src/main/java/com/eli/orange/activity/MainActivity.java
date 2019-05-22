@@ -73,10 +73,8 @@ public class MainActivity extends BaseActivity {
     private TextView txtName, txtWebsite;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.fab)
+    @BindView(R.id.viewfab)
     FloatingActionButton fab;
-    @BindView(R.id.floating_search_view)
-    FloatingSearchView floatingSearchView;
 
     private FirebaseAuth auth;
 
@@ -122,6 +120,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        fab.setVisibility(View.GONE);
 
 
         auth = FirebaseAuth.getInstance();
@@ -130,56 +129,17 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         uploads = new ArrayList<>();
-
-        //new BottomSheetFragment().show(getSupportFragmentManager(), new BottomSheetFragment().getTag());
-        floatingSearchView.attachNavigationDrawerToMenuButton(drawer);
-        floatingSearchView.setVisibility(View.GONE);
-
         bottomSheetFragment = new BottomSheetFragment();
+
+        showBottomSheet();
 
         mHandler = new Handler();
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
 
-
-        floatingSearchView.attachNavigationDrawerToMenuButton(drawer);
-        /*
-        * Populate FloatingSearchView With List Query
-        * this will excute a function from @HomeFragment to display the list of available area in the map
-        */
-        floatingSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-            @Override
-            public void onSearchTextChanged(String oldQuery, String newQuery) {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS).child(auth.getCurrentUser().getUid());
-
-                Query searchQuery = databaseReference.orderByChild("title").equalTo(newQuery);
-                searchQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            // dataSnapshot is the "issue" node with all children with id 0
-                            for (DataSnapshot data : dataSnapshot.getChildren()) {
-                                Upload upload = data.getValue(Upload.class);
-                                uploads.add(upload);
-                                //floatingSearchView.swapSuggestions(uploads);
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-
-                //floatingSearchView.swapSuggestions(newSuggestions);
-            }
-        });
-
-
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                bottomSheet.setMinimumHeight(20);
                 switch (newState) {
                     case BottomSheetBehavior.STATE_HIDDEN:
                         break;
@@ -199,6 +159,13 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
 
+                bottomSheet.setMinimumHeight(200);
+            }
+        });
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBottomSheet();
             }
         });
 
@@ -212,29 +179,7 @@ public class MainActivity extends BaseActivity {
 
         // load toolbar titles from string resources
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!bottomSheetFragment.isVisible()) {
-                    bottomSheetFragment.setStyle(DialogFragment.STYLE_NO_FRAME, R.style.AppBottomSheetDialogTheme);
-                    final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-
-                    if (auth.getCurrentUser() == null) {
-                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                    } else if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                        buildAlertMessageNoGps();
-                    } else {
-                        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
-                    }
-
-
-                }
-            }
-
-
-        });
+        fab.setVisibility(View.GONE);
 
         // load nav menu header data
         if (auth.getCurrentUser() != null) {
@@ -275,6 +220,23 @@ public class MainActivity extends BaseActivity {
 
         // showing dot next to notifications label
         navigationView.getMenu().getItem(3).setActionView(R.layout.menu_dot);
+    }
+    private void showBottomSheet(){
+        if (!bottomSheetFragment.isVisible()) {
+            bottomSheetFragment.setStyle(DialogFragment.STYLE_NO_FRAME, R.style.AppBottomSheetDialogTheme);
+            final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
+            if (auth.getCurrentUser() == null) {
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            } else if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                buildAlertMessageNoGps();
+            } else {
+                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+            }
+
+
+        }
     }
 
     /***
@@ -582,18 +544,6 @@ public class MainActivity extends BaseActivity {
         final AlertDialog alert = builder.create();
         alert.show();
     }
-    public void replaceFragments(Class fragmentClass) {
-        Fragment fragment = null;
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.frame, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
+
 
 }

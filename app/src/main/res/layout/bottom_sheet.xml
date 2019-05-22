@@ -6,10 +6,19 @@
     android:layout_height="wrap_content"
     android:background="#00ffffff"
     android:orientation="vertical"
-    app:behavior_hideable="true"
-    app:behavior_peekHeight="5dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
+
+    <View
+        android:layout_width="50dp"
+        android:layout_height="5dp"
+        android:background="@drawable/rounded_dialog"
+        android:backgroundTint="@color/blue"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/card_margin"
+        android:layout_gravity="center_horizontal"
+        android:text="Peak Height"
+        android:textColor="@android:color/white" />
 
     <FrameLayout
         android:id="@+id/fragment_container"

@@ -3,11 +3,13 @@ package com.eli.orange.fragments.HomeFragment;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
@@ -75,7 +77,6 @@ public class homeFragment extends BaseFragmentActivity implements
     private ClusterManager<MyItem> mClusterManager;
     private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseAuth auth;
-    private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private InfoWindowDatas infoWindowDatas;
     private CustomInfoWindowGoogleMap customInfoWindow;
@@ -101,7 +102,6 @@ public class homeFragment extends BaseFragmentActivity implements
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
         // get reference to 'users' node
-        mFirebaseDatabase = mFirebaseInstance.getReference("places");
         ButterKnife.bind(this, view);
         permissionAccessManager = new PermissionAccessManager(getContext());
         presenter = new homeFragmentPresenter(getContext());
@@ -176,6 +176,8 @@ public class homeFragment extends BaseFragmentActivity implements
                                                     .title(infoWindowDatas.getMBusinessName());
 
 
+
+
                                             Marker marker = myMap.addMarker(markerOptions);
                                             customInfoWindow = new CustomInfoWindowGoogleMap(getActivity());
                                             myMap.setInfoWindowAdapter(customInfoWindow);
@@ -241,6 +243,18 @@ public class homeFragment extends BaseFragmentActivity implements
         }
     }
 
+    public void displayPositionMarker(Double latitude, Double longitude){
+        LatLng latLng= new LatLng(latitude,longitude);
+        myMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(latLng)             // Sets the center of the map to location user
+                .zoom(15)                   // Sets the zoom
+                .build();
+        myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
 
     // Call this method only when you have the permissions to view a user's location.
     public void showMyLocation() {
@@ -279,8 +293,7 @@ public class homeFragment extends BaseFragmentActivity implements
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(latLng)             // Sets the center of the map to location user
-                    .zoom(15)                   // Sets the zoom
-                    .bearing(90)                // Sets the orientation of the camera to east
+                    .zoom(15)                   // Sets the orientation of the camera to east
                     .tilt(40)                   // Sets the tilt of the camera to 30 degrees
                     .build();                   // Creates a CameraPosition from the builder
             myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -349,6 +362,11 @@ public class homeFragment extends BaseFragmentActivity implements
         GetUserUploadsFragment uploadsFragment = new GetUserUploadsFragment();
         Bundle args = new Bundle();
         args.putString("USER_ID", infoDatas.getMUserId());
+        args.putDouble("saddrlon",marker.getPosition().longitude);
+        args.putDouble("daddrlon",myMap.getMyLocation().getLongitude());
+        args.putDouble("saddrlat",marker.getPosition().latitude);
+        args.putDouble("daddrlat",myMap.getMyLocation().getLatitude());
+
         uploadsFragment.setArguments(args);
 
 

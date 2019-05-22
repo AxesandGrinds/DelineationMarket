@@ -2,7 +2,9 @@ package com.eli.orange.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -15,10 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.eli.orange.R;
 import com.eli.orange.models.Upload;
 import com.eli.orange.utils.Constants;
 import com.eli.orange.utils.GlideApp;
+import com.eli.orange.viewSelectedItem;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +35,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -73,7 +80,10 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.ViewHo
         userStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                GlideApp.with(context).load(uri.toString()).into(holder.imageView);
+                GlideApp.with(context)
+                        .load(uri.toString())
+                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(14)))
+                        .into(holder.imageView);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -113,10 +123,20 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.ViewHo
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnLongClickListener(this::onLongClick);
+            itemView.setOnClickListener(this::onClick);
         }
 
         @Override
         public void onClick(View v) {
+
+            int adapterPosition = getAdapterPosition();
+            Intent parcelIntent = new Intent(context, viewSelectedItem.class);
+            ArrayList<Upload> dataList = new ArrayList<Upload>();
+            dataList.add(uploads.get(adapterPosition));
+            parcelIntent.putParcelableArrayListExtra(Constants.CUSTOME_DATA, (ArrayList<? extends Parcelable>) dataList);
+
+            Log.d("ARRAY _LIST",""+dataList.get(0).getTitle());
+            context.startActivity(parcelIntent);
         }
 
         @Override

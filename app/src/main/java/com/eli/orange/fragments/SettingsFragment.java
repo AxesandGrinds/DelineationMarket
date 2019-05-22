@@ -7,17 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.fragment.app.Fragment;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
-import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
-import uk.co.deanwild.materialshowcaseview.shape.OvalShape;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +16,11 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.Fragment;
+
 import com.eli.orange.R;
-import com.eli.orange.activity.FirebaseUserAccountSettingActivity;
 import com.eli.orange.activity.LoginActivity;
 import com.eli.orange.activity.SignUpActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,7 +29,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import static com.eli.orange.utils.Constants.SHOWCASE_ID;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -357,7 +350,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
 
     void showsnackbar(String message) {
-        View parentLayout = view.findViewById(android.R.id.content);
+        View parentLayout = getActivity().findViewById(android.R.id.content);
         Snackbar.make(parentLayout, message, Snackbar.LENGTH_LONG)
                 .setAction("CLOSE", new View.OnClickListener() {
                     @Override
@@ -369,7 +362,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 .show();
         //Other stuff in
     }
-    void openMaterialSHowCaseView(){
+    /*void openMaterialSHowCaseView(){
         // sequence example
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500); // half second between each showcase view
@@ -391,5 +384,5 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
         sequence.start();
 
-    }
+    }*/
 }

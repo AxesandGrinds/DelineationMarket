@@ -1,46 +1,44 @@
 package com.eli.orange.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.eli.orange.R;
+import com.eli.orange.fragments.HomeFragment.homeFragment;
 import com.eli.orange.models.Upload;
 import com.eli.orange.utils.Constants;
 import com.eli.orange.utils.GlideApp;
+import com.eli.orange.viewSelectedItem;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class UserUploadsContentsAdapter extends RecyclerView.Adapter<UserUploadsContentsAdapter.ViewHolder> {
+public class availableContentAdapter extends RecyclerView.Adapter<availableContentAdapter.ViewHolder> {
 
     private Context context;
     private List<Upload> uploads;
@@ -48,7 +46,7 @@ public class UserUploadsContentsAdapter extends RecyclerView.Adapter<UserUploads
 
     private FirebaseAuth auth;
 
-    public UserUploadsContentsAdapter(Context context) {
+    public availableContentAdapter(Context context) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
         auth = FirebaseAuth.getInstance();
@@ -56,7 +54,7 @@ public class UserUploadsContentsAdapter extends RecyclerView.Adapter<UserUploads
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.user_uploads_layout, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.available_uploads_layout, parent, false));
 
     }
 
@@ -65,8 +63,7 @@ public class UserUploadsContentsAdapter extends RecyclerView.Adapter<UserUploads
         Upload upload = uploads.get(position);
 
         holder.textViewName.setText(uploads.get(position).getTitle());
-        holder.itemDescrription.setText(uploads.get(position).getDescription());
-        holder.itemPrice.setText( uploads.get(position).getPrice());
+        holder.itemPrice.setText("Buy "+uploads.get(position).getPrice());
 
 
         StorageReference storage = FirebaseStorage.getInstance().getReference();
@@ -75,7 +72,11 @@ public class UserUploadsContentsAdapter extends RecyclerView.Adapter<UserUploads
         userStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                GlideApp.with(context).load(uri.toString()).into(holder.imageView);
+                GlideApp.with(context)
+                        .load(uri.toString())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(14)))
+                        .into(holder.imageView);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -104,22 +105,30 @@ public class UserUploadsContentsAdapter extends RecyclerView.Adapter<UserUploads
         TextView textViewName;
         @BindView(R.id.imageView)
         ImageView imageView;
-        @BindView(R.id.textViewDescription)
-        TextView itemDescrription;
         @BindView(R.id.textViewprice)
-        TextView itemPrice;
-        @BindView(R.id.uploadDelete)
-        TextView deleteButton;
+        Chip itemPrice;
 
-        public ViewHolder(View itemView){
+        public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnLongClickListener(this::onLongClick);
+            itemView.setOnClickListener(this::onClick);
         }
 
         @Override
         public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
+            homeFragment fragm = (homeFragment)fm.findFragmentById(R.id.frame);
+            fragm.displayPositionMarker(uploads.get(adapterPosition).getLatitude(),uploads.get(adapterPosition).getLongitude());
+           /* int adapterPosition = getAdapterPosition();
+            Intent parcelIntent = new Intent(context, viewSelectedItem.class);
+            ArrayList<Upload> dataList = new ArrayList<Upload>();
+            dataList.add(uploads.get(adapterPosition));
+            parcelIntent.putParcelableArrayListExtra(Constants.CUSTOME_DATA, (ArrayList<? extends Parcelable>) dataList);
 
+            Log.d("ARRAY _LIST",""+dataList.get(0).getTitle());
+            context.startActivity(parcelIntent);*/
 
         }
 
@@ -130,7 +139,5 @@ public class UserUploadsContentsAdapter extends RecyclerView.Adapter<UserUploads
 
 
     }
-
-
 
 }

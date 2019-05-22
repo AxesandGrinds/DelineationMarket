@@ -13,6 +13,7 @@ import com.eli.orange.fragments.addCenter.AddCenterFragment;
 import com.eli.orange.fragments.HistoryFragment;
 import com.eli.orange.fragments.NotificationsFragment;
 import com.eli.orange.fragments.addCenter.AddCenterFragmentPresenter;
+import com.eli.orange.fragments.availableProducts.availableContentFragment;
 import com.eli.orange.fragments.userProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
@@ -27,6 +28,7 @@ import butterknife.ButterKnife;
 public class BottomSheetFragment extends BottomSheetDialogFragment implements OnNavigationItemSelectedListener {
     private View view;
     private AddCenterFragmentPresenter presenter;
+    private Fragment fragment;
 
     @BindView(id.bottomNavigation)
     BottomNavigationView bottomNavigationView;
@@ -45,9 +47,14 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements On
         view  = inflater.inflate(layout.bottom_sheet, container, false);
 
         ButterKnife.bind(this, view);
-        loadFragment(new AddCenterFragment());
+        fragment = new availableContentFragment();
+        loadFragment(fragment);
+
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
+
+
 
         return view;
     }
@@ -55,10 +62,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Fragment fragment = null;
+
         switch (item.getItemId()) {
             case id.bottom_home:
-                fragment = new AddCenterFragment();
+                fragment = new availableContentFragment();
                 break;
             case id.bottom_history:
                 fragment = new HistoryFragment();
@@ -67,7 +74,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements On
                 fragment = new userProfileFragment();
                 break;
             case id.bottom_notifications:
-                fragment = new uploadsFragment();
+                fragment = new NotificationsFragment();
                 break;
         }
         return loadFragment(fragment);

@@ -5,7 +5,7 @@
 
         <item
             android:id="@+id/bottom_home"
-            android:icon="@drawable/plus_circle"
+            android:icon="@drawable/google_maps"
             android:title="@string/nav_add_center" />
         <item
             android:id="@+id/bottom_notifications"
@@ -14,6 +14,7 @@
         <item
             android:id="@+id/bottom_history"
             android:icon="@drawable/google_maps"
+            android:visible="false"
             android:title="@string/nav_photos" />
         <item
             android:id="@+id/bottom_user_profile"
