@@ -120,6 +120,7 @@ public class availableContentAdapter extends RecyclerView.Adapter<availableConte
             int adapterPosition = getAdapterPosition();
             FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
             homeFragment fragm = (homeFragment)fm.findFragmentById(R.id.frame);
+            //Log.d("UPLOADED DATA",uploads.get(adapterPosition).getLatitude().toString()+", " +uploads.get(adapterPosition).getLongitude().toString());
             fragm.displayPositionMarker(uploads.get(adapterPosition).getLatitude(),uploads.get(adapterPosition).getLongitude());
            /* int adapterPosition = getAdapterPosition();
             Intent parcelIntent = new Intent(context, viewSelectedItem.class);

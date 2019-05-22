@@ -231,7 +231,6 @@ public class homeFragment extends BaseFragmentActivity implements
                         PackageManager.PERMISSION_GRANTED) {
             myMap.setMyLocationEnabled(true);
             myMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            myMap.setTrafficEnabled(true);
             myMap.getUiSettings().setZoomControlsEnabled(true);
             myMap.getUiSettings().setMyLocationButtonEnabled(true);
         } else {
@@ -357,7 +356,7 @@ public class homeFragment extends BaseFragmentActivity implements
 
         InfoWindowDatas infoDatas = (InfoWindowDatas)marker.getTag();
 
-        Log.d("MARKER DATA",infoDatas.getMUserId());
+        //Log.d("MARKER DATA",infoDatas.getMUserId());
 
         GetUserUploadsFragment uploadsFragment = new GetUserUploadsFragment();
         Bundle args = new Bundle();

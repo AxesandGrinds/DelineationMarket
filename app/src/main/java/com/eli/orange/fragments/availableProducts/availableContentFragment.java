@@ -117,7 +117,6 @@ public class availableContentFragment extends Fragment {
         chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
         chip.setText(text);
         chip.setId(id);
-        chip.setBackgroundColor(getResources().getColor(R.color.blue));
         chip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,10 +137,17 @@ public class availableContentFragment extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
 
+                        InfoWindowDatas data = dataSnapshot.getValue(InfoWindowDatas.class);
+                        latitud = data.getMLocationLatitude();
+                        longitud = data.getMLocationLongitude();
+
+                        Log.d("DATAS","latitude:"+latitud+ ","+"longitude"+longitud);
+
                         for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
                             Chip entryChip = getChip(entryChipGroup, npsnapshot.getKey(), getContext(),1);
                             entryChipGroup.addView(entryChip);
-                            for (DataSnapshot childsnapshot: npsnapshot.getChildren()){
+                            getLocationData(npsnapshot.getKey());
+                            /*for (DataSnapshot childsnapshot: npsnapshot.getChildren()){
 
                                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS).child(childsnapshot.getKey());
 
@@ -149,6 +155,9 @@ public class availableContentFragment extends Fragment {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         if (dataSnapshot.hasChildren()) {
+
+
+
                                             uploads.clear();
                                             for (DataSnapshot userdata: dataSnapshot.getChildren()) {
 
@@ -169,7 +178,7 @@ public class availableContentFragment extends Fragment {
 
                                     }
                                 });
-                            }
+                            }*/
                         }
 
 
@@ -214,6 +223,7 @@ public class availableContentFragment extends Fragment {
                                latitud = data.getMLocationLatitude();
                                longitud = data.getMLocationLongitude();
 
+
                                uploads.clear();
                                for (DataSnapshot datasnap : dataSnap.getChildren()) {
 
@@ -221,8 +231,12 @@ public class availableContentFragment extends Fragment {
                                    Upload upload = datasnap.getValue(Upload.class);
                                    upload.setLatitude(latitud);
                                    upload.setLongitude(longitud);
+
+
                                    uploads.add(upload);
                                    adapter.addItems(uploads);
+                                   recyclerView.setAdapter(adapter);
+                                   view.setVisibility(View.VISIBLE);
 
 
                                    Log.d("AFTER LATLANG SET", upload.toString());
