@@ -2,6 +2,7 @@ package com.eli.orange.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,6 +60,9 @@ public class GetUserUploadsFragment extends Fragment {
     RecyclerView recyclerView;
     @BindView(R.id.fabOpenUpload)
     FloatingActionButton openUpload;
+    @BindView(R.id.fabOpenLocation)
+    FloatingActionButton fabLocation;
+    private Double saddrlongitude, saddrlatitude,daddrlongitude,daddrlatitude;
 
     private View view;
 
@@ -80,6 +84,23 @@ public class GetUserUploadsFragment extends Fragment {
         adapter = new UserUploadsContentsAdapter(getContext());
         //new requestUploadedDataFromFireBaseRealTimeDatabase().execute();
         openUpload.setVisibility(View.GONE);
+        Bundle extras = this.getArguments();
+
+        saddrlatitude = extras.getDouble("saddrlat");
+        saddrlongitude = extras.getDouble("saddrlon");
+
+        daddrlatitude = extras.getDouble("daddrlat");
+        daddrlongitude = extras.getDouble("daddrlon");
+
+
+        fabLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("http://maps.google.com/maps?" + "saddr="+ saddrlatitude + "," + saddrlongitude + "&daddr=" + daddrlatitude + "," + daddrlongitude));
+                intent.setClassName("com.google.android.apps.maps","com.google.android.maps.MapsActivity");
+                startActivity(intent);
+            }
+        });
 
 
         progressDialog = new ProgressDialog(getContext());
@@ -136,6 +157,7 @@ public class GetUserUploadsFragment extends Fragment {
             }
         });
     }
+
 
     void showsnackbar(String message) {
         View parentLayout = view.findViewById(android.R.id.content);

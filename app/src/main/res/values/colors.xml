@@ -14,6 +14,14 @@
     <color name="transparentColor">#00ffffff</color>
 
 
+    <!--TextInputLayoutApparence Theme-->
+    <color name="user_input_color">#939498</color>
+    <color name="unfocused_color">#F4F4F4</color>
+    <color name="blue">#42b883</color>
+    <color name="green">#35495e</color>
+    <color name="red">#FF0000</color>
+
+
     <color name="colorPrimary">#00bcd4</color>
     <color name="colorPrimaryDark">#0097a7</color>
     <color name="colorAccent">#f2fe71</color>

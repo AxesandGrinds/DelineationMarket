@@ -60,6 +60,10 @@ public class uploadsFragment extends Fragment {
     @BindView(R.id.fabOpenUpload)
     FloatingActionButton openUpload;
 
+
+    @BindView(R.id.fabOpenLocation)
+    FloatingActionButton openLocation;
+
     private View view;
 
     public uploadsFragment() {
@@ -73,6 +77,8 @@ public class uploadsFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.layout_images, container, false);
         ButterKnife.bind(this, view);
+
+        openLocation.setVisibility(View.GONE);
 
 
         recyclerView.setHasFixedSize(true);
