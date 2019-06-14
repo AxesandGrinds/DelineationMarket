@@ -85,15 +85,24 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-alpha06'
 
 
-    /*MterialSearchViewShow
-    implementation 'com.github.deano2390:MaterialShowcaseView:1.3.4@aar'
-    */
+    // MterialSearchViewShow
+    implementation 'com.github.deano2390:MaterialShowcaseView:1.3.4'
+
 
     //FloatingSearchDialog
     implementation 'com.github.arimorty:floatingsearchview:2.1.1'
 
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //placeholderview
+    implementation 'com.mindorks:placeholderview:0.7.1'
+
+    //VerticalStepper
+    //implementation 'com.ernestoyaquello.stepperform:vertical-stepper-form:2.2.0'
+
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
 }
 apply plugin: 'com.google.gms.google-services'
-

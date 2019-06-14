@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+   <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/user"
@@ -18,9 +18,13 @@
         android:layout_marginTop="@dimen/card_margin"
         />
 
-    <com.google.android.material.textfield.TextInputLayout
+     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:hint="@string/email"
+        android:theme="@style/TextInputLayoutAppearance">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/lacationName"
@@ -31,8 +35,13 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:hint="@string/email"
+        android:theme="@style/TextInputLayoutAppearance">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/lacationLongitude"
@@ -63,7 +72,7 @@
         />
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/lacationSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,7 +83,7 @@
         android:textColor="#FFF"
         android:background="@color/primaryColor"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,7 +93,7 @@
         android:layout_gravity="center_horizontal"
         android:textColor="#FFF"
         android:background="@color/primaryColor"/>
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -94,7 +103,7 @@
         android:layout_gravity="center_horizontal"
         android:textColor="#FFF"
         android:background="@color/primaryColor"/>
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -103,7 +112,7 @@
         android:padding="@dimen/card_margin"
         android:layout_gravity="center_horizontal"
         android:textColor="#FFF"
-        android:background="@color/primaryColor"/>
+        android:background="@color/primaryColor"/>-->
 
 
 </LinearLayout>

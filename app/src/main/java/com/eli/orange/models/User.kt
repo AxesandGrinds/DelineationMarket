@@ -7,5 +7,6 @@ data class User(
         var username: String? = "",
         var email: String? = "",
         var userId: String = "",
-        var userImageUrl: String = ""
+        var userImageUrl: String = "",
+        var userPhoneNumber: String =""
 )

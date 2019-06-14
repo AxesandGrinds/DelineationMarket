@@ -9,10 +9,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
 
-    <permission
-        android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
-        android:protectionLevel="signature" />
 
     <uses-permission
         android:name="android.permission.LOCATION_HARDWARE"
@@ -26,14 +24,14 @@
         android:roundIcon="@mipmap/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".viewSelectedItem"></activity>
+        <activity android:name=".viewSelectedItem" />
         <activity android:name=".activity.uploadFiles.ImageUploadActivity" />
         <activity android:name=".activity.FirebaseUserAccountSettingActivity" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.ResetPasswordActivity" />
         <activity android:name=".activity.SignUpActivity" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".activity.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,14 +58,15 @@
         <activity
             android:name=".activity.privacyPolicy.PrivacyPolicyActivity"
             android:noHistory="true" />
-        <activity
-            android:name=".activity.AboutUsActivity"
-            android:parentActivityName=".activity.MainActivity" />
+        <activity android:name=".activity.AboutUsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".activity.AutoComplete" />
         <activity android:name=".utils.GPSTracker" />
         <activity android:name=".utils.ShowPopup" />
     </application>

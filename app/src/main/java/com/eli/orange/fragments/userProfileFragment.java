@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.eli.orange.R;
 import com.eli.orange.activity.uploadFiles.ImageUploadActivity;
+import com.eli.orange.fragments.orders.My.MyOrdersFragment;
 import com.eli.orange.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,9 +26,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +49,9 @@ public class userProfileFragment extends Fragment {
     TextView userProfileEmail;
     @BindView(R.id.button_profile_remove_contact)
     Button removeContact;
+    @BindView(R.id.profile_edit)
+    TextView editProfile;
+    private Unbinder unbinder;
 
     public userProfileFragment() {
 
@@ -54,11 +62,20 @@ public class userProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_user_profile, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
 
         auth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("users");
+
+
+
+        final FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+
+        transaction.addToBackStack(null);
+        //transaction.replace(R.id.rel, new MyOrdersFragment());
+
+        //transaction.commit();
 
         // load nav menu header data
         if (auth.getCurrentUser() != null) {
@@ -66,6 +83,12 @@ public class userProfileFragment extends Fragment {
         }
 
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        unbinder.unbind();
+        super.onDestroy();
     }
 
     private void loadNavHeader() {
@@ -83,6 +106,9 @@ public class userProfileFragment extends Fragment {
 
             }
         });
+    }
+    private void loadCenter(){
+
     }
 
 
@@ -103,6 +129,7 @@ public class userProfileFragment extends Fragment {
     void openuploaded(){
         getContext().startActivity( new Intent(getContext(), ImageUploadActivity.class));
     }
+
 
 
 }

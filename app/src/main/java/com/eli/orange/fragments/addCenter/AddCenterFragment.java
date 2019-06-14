@@ -195,6 +195,8 @@ public class AddCenterFragment extends Fragment implements AddCenterFragmentPres
         return view;
     }
 
+
+
     @OnClick(R.id.bottonSheetButton)
     public void saveitems() {
         if (TextUtils.isEmpty(username.getText().toString().trim())) {
@@ -230,16 +232,10 @@ public class AddCenterFragment extends Fragment implements AddCenterFragmentPres
 
 
     @Override
-    public void saveToLocalStorage() {
-
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
     }
-
 
 
 

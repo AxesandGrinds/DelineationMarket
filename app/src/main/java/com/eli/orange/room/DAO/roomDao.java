@@ -2,11 +2,10 @@ package com.eli.orange.room.DAO;
 
 
 import com.eli.orange.room.entities.locationHistory;
-import com.eli.orange.room.entities.userInfo;
+import com.eli.orange.room.entities.centersInfo;
 
 import java.util.List;
 
-import static android.icu.text.MessagePattern.ArgType.SELECT;
 import static androidx.room.OnConflictStrategy.IGNORE;
 
 import androidx.lifecycle.LiveData;
@@ -18,7 +17,7 @@ import androidx.room.Query;
 public interface roomDao {
 
     @Insert(onConflict = IGNORE)
-    void addInfo(userInfo userInfo);
+    void addInfo(centersInfo centersInfo);
 
     @Insert(onConflict = IGNORE)
     void addLocationHistory(locationHistory locationHistory);

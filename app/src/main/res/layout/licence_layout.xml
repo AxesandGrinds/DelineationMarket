@@ -10,13 +10,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/blue">
     <TextView
         android:id="@+id/licenceID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="serif-monospace"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         android:textAppearance="?android:textAppearanceSmall"
         android:text="1"/>
     <TextView
@@ -25,18 +27,20 @@
         android:layout_height="wrap_content"
         android:fontFamily="serif-monospace"
         android:layout_marginStart="@dimen/card_margin"
+        android:textStyle="bold"
         android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
         android:text="Apache"/>
     </LinearLayout>
     <TextView
         android:id="@+id/licenceName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="normal"
         android:text="@string/long_text_example"
-        android:background="#E6E2E2"
+        android:background="#8B42B883"
         android:textColor="#000000"
+        android:maxLines="4"
         android:textAppearance="?android:textAppearanceSmall"
         android:fontFamily="serif-monospace"
         android:padding="@dimen/activity_vertical_margin"

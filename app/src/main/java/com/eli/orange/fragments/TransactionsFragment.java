@@ -20,6 +20,7 @@ import com.eli.orange.R;
 import com.eli.orange.activity.MainActivity;
 import com.eli.orange.activity.SignUpActivity;
 import com.eli.orange.models.MapData;
+import com.eli.orange.utils.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -63,7 +64,7 @@ public class TransactionsFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
 
         // get reference to 'users' node
-        mFirebaseDatabase = mFirebaseInstance.getReference("places");
+        mFirebaseDatabase = mFirebaseInstance.getReference(Constants.DATABASE_PATH_PLACES);
 
         // store app title to 'app_title' node
         mFirebaseInstance.getReference("app_title").setValue("Locations Data");
@@ -121,7 +122,7 @@ public class TransactionsFragment extends Fragment {
 
         MapData user = new MapData(name, lat,lng);
 
-        mFirebaseDatabase.child(auth.getUid()).child("places").setValue(user);
+        mFirebaseDatabase.child(auth.getUid()).child(Constants.DATABASE_PATH_PLACES).setValue(user);
 
         addUserChangeListener();
     }

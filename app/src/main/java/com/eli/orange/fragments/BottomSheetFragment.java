@@ -1,6 +1,5 @@
 package com.eli.orange.fragments;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -9,12 +8,9 @@ import android.view.ViewGroup;
 
 import com.eli.orange.R.id;
 import com.eli.orange.R.layout;
-import com.eli.orange.fragments.addCenter.AddCenterFragment;
-import com.eli.orange.fragments.HistoryFragment;
-import com.eli.orange.fragments.NotificationsFragment;
 import com.eli.orange.fragments.addCenter.AddCenterFragmentPresenter;
 import com.eli.orange.fragments.availableProducts.availableContentFragment;
-import com.eli.orange.fragments.userProfileFragment;
+import com.eli.orange.fragments.orders.Customer.CustomerOrdersFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -68,7 +64,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements On
                 fragment = new availableContentFragment();
                 break;
             case id.bottom_history:
-                fragment = new HistoryFragment();
+                fragment = new CustomerOrdersFragment();
                 break;
             case id.bottom_user_profile:
                 fragment = new userProfileFragment();

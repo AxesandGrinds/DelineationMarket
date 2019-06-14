@@ -15,6 +15,18 @@
             android:layout_width="wrap_content"
             android:layout_height="150dp">
 
+            <ImageButton
+                android:id="@+id/uploadsLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/crosshairs_gps"
+                android:translationZ="1dp"
+                android:padding="2dp"
+                android:tooltipText="View Seller Location"
+                android:background="#00ffffff"
+                app:layout_constraintEnd_toEndOf="@id/imageView"
+                app:layout_constraintTop_toTopOf="@id/imageView"/>
+
 
             <TextView
                 android:id="@+id/textViewName"
@@ -35,20 +47,23 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:layout_below="@id/textViewName"
-                android:src="@drawable/ic_launcher_background"
+                android:src="@drawable/placeholder_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <com.google.android.material.chip.Chip
+            <TextView
                 android:id="@+id/textViewprice"
-                android:layout_width="wrap_content"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:text="$5000"
+                android:text="@string/price"
+                android:padding="3dp"
+                android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                android:translationZ="1dp"
-                app:chipBackgroundColor="@color/blue"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:background="@drawable/price_curve_shape"
+                app:layout_constraintStart_toEndOf="@id/imageView"
+                app:layout_constraintEnd_toEndOf="@id/imageView"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 

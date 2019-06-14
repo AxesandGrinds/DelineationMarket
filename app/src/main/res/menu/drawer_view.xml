@@ -9,13 +9,12 @@
         <item
             android:id="@+id/nav_photos"
             android:icon="@drawable/cash"
-            android:title="@string/nav_photos"
-            android:visible="false"/>
+            android:title="@string/nav_photos"/>
         <item
             android:id="@+id/nav_movies"
             android:icon="@drawable/credit_card"
-            android:title="User Profile"
-            android:visible="false"/>
+            android:title="Add Center"
+            android:visible="true"/>
 
         <item
             android:id="@+id/nav_notifications"
