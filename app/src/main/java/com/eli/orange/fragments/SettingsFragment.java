@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.eli.orange.R;
@@ -25,12 +26,20 @@ import com.eli.orange.activity.LoginActivity;
 import com.eli.orange.activity.SignUpActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.resources.TextAppearance;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+import uk.co.deanwild.materialshowcaseview.shape.CircleShape;
+import uk.co.deanwild.materialshowcaseview.shape.RectangleShape;
+
+import static com.eli.orange.utils.Constants.SHOWCASE_ID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,6 +75,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     EditText password;
     @BindView(R.id.newPassword)
     EditText newPassword;
+
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
@@ -84,7 +94,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         ButterKnife.bind(this, view);
 
         statusCheck();
-        //openMaterialSHowCaseView();
+        openMaterialSHowCaseView();
 
         gpsswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -362,27 +372,62 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 .show();
         //Other stuff in
     }
-    /*void openMaterialSHowCaseView(){
+    void openMaterialSHowCaseView(){
         // sequence example
         ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(500); // half second between each showcase view
+        config.setDelay(110); // half second between each showcase view
 
+
+
+        //MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity());
         MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
-
         sequence.setConfig(config);
 
-        sequence.addSequenceItem(gpsswitch,
-                "Tap here to swich On/Off the Gps Settings", "GOT IT");
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(getActivity())
+                        .setTarget(gpsswitch)
+                        .setTitleText("GPS Setting")
+                        .setDismissText("GOT IT")
+                        .setContentText("Tap here to swich On/Off the Gps Settings")
+                        .setShapePadding(5)
+                        .withCircleShape()
+                        .setDismissTextColor(ContextCompat.getColor(getActivity(), R.color.quantum_yellow))
+                        .setContentTextColor(ContextCompat.getColor(getActivity(),R.color.secondaryLightColor))
+                        .build());
 
-        sequence.addSequenceItem(btnChangePassword,
-                "Click here to change your account loggin password", "GOT IT");
-
-        sequence.addSequenceItem(btnChangeEmail,
-                "Click here to request your registered email change", "GOT IT");
-        sequence.addSequenceItem(btnRemoveUser,
-                "Click here to completely deletion of your account and data. Warning this process in Undone", "GOT IT");
-
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(getActivity())
+                        .setTarget(btnChangePassword)
+                        .setTitleText("Login Settings")
+                        .setDismissText("GOT IT")
+                        .setShapePadding(5)
+                        .withRectangleShape()
+                        .setContentText("Click here to change your account login password")
+                        .build()
+        );
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(getActivity())
+                        .setTarget(btnChangeEmail)
+                        .setTitleText("Email Settings")
+                        .setDismissText("GOT IT")
+                        .setShapePadding(5)
+                        .withRectangleShape()
+                        .setContentText("Click here to request your registered email change")
+                        .build()
+        );
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(getActivity())
+                        .setTarget(btnRemoveUser)
+                        .setTitleText("Remove User")
+                        .setDismissText("GOT IT")
+                        .withRectangleShape()
+                        .setShapePadding(5)
+                        .setContentText("Delete your account and datas. Warning! this process action can not be undone")
+                        .setMaskColour(ContextCompat.getColor(getActivity(), R.color.quantum_googred300))
+                        .build()
+        );
+        config.setDelay(500);
         sequence.start();
 
-    }*/
+    }
 }

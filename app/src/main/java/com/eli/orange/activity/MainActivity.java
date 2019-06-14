@@ -8,16 +8,14 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.arlib.floatingsearchview.FloatingSearchView;
-import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.eli.orange.activity.privacyPolicy.PrivacyPolicyActivity;
+import com.eli.orange.fragments.orders.OrdersFragment;
 import com.eli.orange.fragments.LicencesFragment;
 import com.eli.orange.fragments.BottomSheetFragment;
+import com.eli.orange.fragments.addCenter.AddCenterFragment;
 import com.eli.orange.fragments.uploadsFragment;
-import com.eli.orange.fragments.userProfileFragment;
 import com.eli.orange.models.Upload;
 import com.eli.orange.models.User;
-import com.eli.orange.utils.Constants;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -26,13 +24,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
-import butterknife.BindInt;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -48,7 +45,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.eli.orange.R;
 import com.eli.orange.fragments.HomeFragment.homeFragment;
-import com.eli.orange.fragments.HistoryFragment;
 import com.eli.orange.fragments.SettingsFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,7 +52,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -95,7 +90,7 @@ public class MainActivity extends BaseActivity {
     // tags used to attach the fragments
     private static final String TAG_HOME = "home";
     private static final String TAG_PHOTOS = "User Profile";
-    private static final String TAG_MOVIES = "Accounts";
+    private static final String TAG_MOVIES = "Add Center";
     private static final String TAG_NOTIFICATIONS = "notifications";
     private static final String TAG_UPLOADS = "Uploads";
     private static final String TAG_SETTINGS = "settings";
@@ -131,10 +126,11 @@ public class MainActivity extends BaseActivity {
         uploads = new ArrayList<>();
         bottomSheetFragment = new BottomSheetFragment();
 
-        showBottomSheet();
+
 
         mHandler = new Handler();
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
+        sheetBehavior.setPeekHeight(0);
 
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -297,15 +293,16 @@ public class MainActivity extends BaseActivity {
             case 0:
                 // home
                 homeFragment homeFragment = new homeFragment();
+                showBottomSheet();
                 return homeFragment;
             case 1:
                 // photos
-                HistoryFragment historyFragment = new HistoryFragment();
-                return historyFragment;
+                OrdersFragment ordersFragment = new OrdersFragment();
+                return ordersFragment;
             case 2:
                 // user profile fragment
-                userProfileFragment userProfileFragment = new userProfileFragment();
-                return userProfileFragment;
+                AddCenterFragment addCenterFragment = new AddCenterFragment();
+                return addCenterFragment;
             case 3:
                 // uploads fragment
                 uploadsFragment uploadsFragment = new uploadsFragment();
@@ -544,6 +541,7 @@ public class MainActivity extends BaseActivity {
         final AlertDialog alert = builder.create();
         alert.show();
     }
+
 
 
 }

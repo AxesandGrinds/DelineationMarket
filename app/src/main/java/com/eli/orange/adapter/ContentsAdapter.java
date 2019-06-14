@@ -129,14 +129,15 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.ViewHo
         @Override
         public void onClick(View v) {
 
-            int adapterPosition = getAdapterPosition();
+           /* int adapterPosition = getAdapterPosition();
             Intent parcelIntent = new Intent(context, viewSelectedItem.class);
             ArrayList<Upload> dataList = new ArrayList<Upload>();
             dataList.add(uploads.get(adapterPosition));
+
             parcelIntent.putParcelableArrayListExtra(Constants.CUSTOME_DATA, (ArrayList<? extends Parcelable>) dataList);
 
-            Log.d("ARRAY _LIST",""+dataList.get(0).getTitle());
-            context.startActivity(parcelIntent);
+            //Log.d("ARRAY _LIST",""+dataList.get(0).getTitle());
+            context.startActivity(parcelIntent);*/
         }
 
         @Override

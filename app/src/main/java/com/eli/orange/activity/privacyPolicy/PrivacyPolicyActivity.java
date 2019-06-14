@@ -15,7 +15,7 @@ public class PrivacyPolicyActivity extends AppCompatActivity implements PrivacyP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_privacy_policy);
+        setContentView(R.layout.activity_about_us);
         presenter = new PrivacyPolicyActivityPresenter(this);
         openCustom();
 

@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText loginPassword;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.login_alt_buttons)
+    LinearLayout altButtons;
     private FirebaseAuth auth;
     private SharedPreferencesManager sharedPreferencesManager;
     private MainActivity mainActivity;
@@ -95,7 +98,9 @@ public class LoginActivity extends AppCompatActivity {
                             if (password.length() < 6) {
                                 loginPassword.setError(getString(R.string.minimum_password));
                             } else {
-                                Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                                showsnackbar( getString(R.string.auth_failed));
+                                altButtons.setVisibility(View.VISIBLE);
+
                             }
                         } else {
                             showsnackbar("Logged in Successful...");

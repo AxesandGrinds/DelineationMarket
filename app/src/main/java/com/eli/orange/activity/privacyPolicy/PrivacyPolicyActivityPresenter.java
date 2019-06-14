@@ -25,8 +25,6 @@ public class PrivacyPolicyActivityPresenter {
 
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.setToolbarColor(mCtx.getResources().getColor(R.color.primaryColor));
-        builder.setStartAnimations(mCtx,R.anim.fab_open,R.anim.rotate_clockwise);
-        builder.setExitAnimations(mCtx,R.anim.fab_close, R.anim.rotate_anticlockwise);
 
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(mCtx, Uri.parse(PRIVACY_POLICY_URL));

@@ -25,6 +25,7 @@ import com.eli.orange.R;
 import com.eli.orange.adapter.LicencesRecyclerAdapter;
 import com.eli.orange.adapter.LocationsAdapter;
 import com.eli.orange.models.Licence;
+import com.eli.orange.utils.Constants;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -70,7 +71,7 @@ public class LicencesFragment extends Fragment {
     public class backgroundTask extends AsyncTask<Void,Void,Void>{
         @Override
         protected Void doInBackground(Void... voids) {
-            mFirebaseInstance.getReference("licences").addValueEventListener(new ValueEventListener() {
+            mFirebaseInstance.getReference(Constants.DATABASE_PATH_LICENCES).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()){

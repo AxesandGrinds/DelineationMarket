@@ -203,27 +203,23 @@ public class ImageUploadActivity extends Activity implements AdapterView.OnItemS
     public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
         item = parent.getItemAtPosition(i).toString();
         switch (item) {
-            case "Clothes":
-                category = "w";
+            case "Shilling":
+                category = "Tsh";
                 break;
-            case "Shoes":
-                category = "v";
+            case "US Dollar":
+                category = "Usd";
                 break;
-            case "Jewellery":
-                category = "j";
-                break;
-            case "MobilePhones":
-                category = "p";
-                break;
+
         }
 
         // Showing selected spinner item
-        if (item.equals("Category")) {
+        if (item.equals("Currencies")) {
+            uploadImage.setText("Please select currency");
             uploadImage.setEnabled(false);
-            Toast.makeText(parent.getContext(), "Select Category", Toast.LENGTH_LONG).show();
-            Log.d("IMAGE STRING", imageToString(selectedImage));
+
         } else {
             uploadImage.setEnabled(true);
+            uploadImage.setText("POST");
             Toast.makeText(parent.getContext(), "You have Selected: " + item, Toast.LENGTH_LONG).show();
         }
     }
@@ -241,11 +237,9 @@ public class ImageUploadActivity extends Activity implements AdapterView.OnItemS
 
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
-        categories.add("Category");
-        categories.add("Clothes");
-        categories.add("Shoes");
-        categories.add("Jewellery");
-        categories.add("MobilePhones");
+        categories.add("Currencies");
+        categories.add("Shilling");
+        categories.add("US Dollar");
 
 
         // Creating adapter for spinner
@@ -292,7 +286,7 @@ public class ImageUploadActivity extends Activity implements AdapterView.OnItemS
 
 
                     //creating the upload object to store uploaded image details
-                    Upload upload = new Upload(itemTitle.getText().toString().trim(), itemDesc.getText().toString(), itemPrice.getText().toString(), sRef.getName());
+                    Upload upload = new Upload(itemTitle.getText().toString().trim(), itemDesc.getText().toString(), itemPrice.getText().toString()+" "+category.toString(), sRef.getName());
 
                     //adding an upload to firebase database
                     String uploadId = mDatabase.push().getKey();

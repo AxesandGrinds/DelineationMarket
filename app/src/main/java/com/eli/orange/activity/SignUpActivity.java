@@ -119,7 +119,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
     void addCreatedUserInUsersList(String username, String emailAddress,String userId){
-        User user = new User(username,emailAddress,userId, Constants.USER_PROFILE_AVATAR);
+        User user = new User(username,emailAddress,userId, Constants.USER_PROFILE_AVATAR,"+255 xxx xxxx");
         databaseReference.child("users").child(userId).setValue(user);
     }
 }

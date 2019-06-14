@@ -1,38 +1,42 @@
 {
   "project_info": {
-    "project_number": "816622181990",
-    "firebase_url": "https://firecast-app-6f24a.firebaseio.com",
-    "project_id": "firecast-app-6f24a",
-    "storage_bucket": "firecast-app-6f24a.appspot.com"
+    "project_number": "1062795013323",
+    "firebase_url": "https://telespo.firebaseio.com",
+    "project_id": "telespo",
+    "storage_bucket": "telespo.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:816622181990:android:4bc3ae24a74dbc3a",
+        "mobilesdk_app_id": "1:1062795013323:android:4bc3ae24a74dbc3a",
         "android_client_info": {
           "package_name": "com.eli.orange"
         }
       },
       "oauth_client": [
         {
-          "client_id": "816622181990-54082nnc8p3gf6th1b36u2dbsmhajofe.apps.googleusercontent.com",
+          "client_id": "1062795013323-k61b374uulchho3aucqtv4shr96oiq22.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.eli.orange",
             "certificate_hash": "c44afe935a0e5e5f820019302bc6bc71682078ef"
           }
+        },
+        {
+          "client_id": "1062795013323-dp2gtvv2n64auisdrif0e1l95mjuctk3.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAOKdl2F_rhpMbBXK7fjoStrJ9wi97d_oY"
+          "current_key": "AIzaSyD9wQYs7KLrLD0lWmUwWPlSXr9n6_sKBWU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "816622181990-hthugpo0tuu5q2l4pif0gos9vb3f74je.apps.googleusercontent.com",
+              "client_id": "1062795013323-dp2gtvv2n64auisdrif0e1l95mjuctk3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

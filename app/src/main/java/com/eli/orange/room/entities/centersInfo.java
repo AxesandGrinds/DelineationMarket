@@ -8,22 +8,22 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user_info")
-public class userInfo implements Serializable {
+public class centersInfo implements Serializable {
 
-    @NonNull
-    public int getUserID() {
-        return this.userID;
+
+    public int getCenterID() {
+        return this.centerID;
     }
 
-    public void setUserID(@NonNull int userID) {
-        this.userID = userID;
+    public void setCenterID(final int centerID) {
+        this.centerID = centerID;
     }
 
     public String getBusinessname() {
         return this.businessname;
     }
 
-    public void setBusinessname(String businessname) {
+    public void setBusinessname(final String businessname) {
         this.businessname = businessname;
     }
 
@@ -31,32 +31,15 @@ public class userInfo implements Serializable {
         return this.locationame;
     }
 
-    public void setLocationame(String locationame) {
+    public void setLocationame(final String locationame) {
         this.locationame = locationame;
     }
-
-
-
-    public String getUsername() {
-        return this.username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-
-
-    @PrimaryKey(autoGenerate = true)
-    private int userID;
-    private String businessname;
-    private String locationame;
 
     public double getLatitude() {
         return this.latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(final double latitude) {
         this.latitude = latitude;
     }
 
@@ -64,10 +47,22 @@ public class userInfo implements Serializable {
         return this.longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(final double longitude) {
         this.longitude = longitude;
     }
 
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(final String username) {
+        this.username = username;
+    }
+
+    @PrimaryKey(autoGenerate = true)
+    private int centerID;
+    private String businessname;
+    private String locationame;
     private double latitude;
     private double longitude;
     private String username;

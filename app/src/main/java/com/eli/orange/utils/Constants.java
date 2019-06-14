@@ -40,11 +40,17 @@ public class Constants {
 
     public static final String DATABASE_PATH_PLACES = "places";
 
+    public static final String DATABASE_PATH_ORDERS = "orders";
+
+    public static final String DATABASE_PATH_LICENCES = "licences";
+
     //ShocaseIds
     public static final String SHOWCASE_ID = "SETTING_FRAGMENT";
 
     public static final String USER_PROFILE_AVATAR = "https://gazettereview.com/wp-content/uploads/2016/03/facebook-avatar.jpg";
 
     public static final String CUSTOME_DATA = "CUSTOME_DATA";
+
+    public static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
 
 }

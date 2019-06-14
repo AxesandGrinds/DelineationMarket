@@ -46,7 +46,10 @@ public class SharedPreferencesManager {
         COUNTRY_NAME,
         SAMPLE_STR,
         SAMPLE_INT,
-        IS_USER_LOGGED_IN
+        IS_USER_LOGGED_IN,
+        USER_LOCATION_LATITUDE,
+        USER_LOCATION_LONGITUDE,
+        USER_LOCATION_NAME
     }
 
     public SharedPreferencesManager(Context context) {

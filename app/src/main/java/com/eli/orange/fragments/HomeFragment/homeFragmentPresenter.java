@@ -18,6 +18,7 @@ import com.eli.orange.models.UserData;
 import com.eli.orange.models.UserMapData;
 import com.eli.orange.room.database.DatabaseClient;
 import com.eli.orange.room.entities.locationHistory;
+import com.eli.orange.utils.SharedPreferencesManager;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -34,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,18 +45,14 @@ import java.util.Scanner;
 import static android.widget.Toast.LENGTH_LONG;
 
 public class homeFragmentPresenter {
-    public  Context mCtx;
-    private String dataId;
-    private static final String TAG = (MainActivity.class).getSimpleName();
-    private DatabaseReference mFirebaseDatabase;
-    private FirebaseDatabase mFirebaseInstance;
-    private List<MapData> listData;
-    private MyClusterRenderer renderer;
-    private UserData userData;
-    private CustomInfoWindowGoogleMap customInfoWindow;
+    public Context mCtx;
+    private SharedPreferencesManager sharedPreferencesManager;
+    private String LOCATION_NAME;
+
 
     public homeFragmentPresenter(Context mCtx) {
         this.mCtx = mCtx;
+        sharedPreferencesManager = new SharedPreferencesManager(mCtx);
 
     }
 
@@ -66,53 +64,40 @@ public class homeFragmentPresenter {
 
     }
 
-    public void readMapData(ClusterManager mClusterManager, GoogleMap myMap) {
+    public void saveLocationData(LatLng latLng) {
+        sharedPreferencesManager.put(SharedPreferencesManager.Key.USER_LOCATION_LATITUDE, latLng.latitude);
+        sharedPreferencesManager.put(SharedPreferencesManager.Key.USER_LOCATION_LONGITUDE, latLng.longitude);
+
+        getLocationName();
+    }
+
+    public void getLocationName() {
+        Geocoder gcd = new Geocoder(mCtx, Locale.getDefault());
+        try {
+            List<Address> addresses = gcd.getFromLocation(
+                    sharedPreferencesManager.getDouble(SharedPreferencesManager.Key.USER_LOCATION_LATITUDE),
+                    sharedPreferencesManager.getDouble(SharedPreferencesManager.Key.USER_LOCATION_LONGITUDE), 1);
+
+            if (addresses.size() > 0 ) {
+                Address obj = addresses.get(0);
+                LOCATION_NAME = addresses.get(0).getFeatureName();
 
 
-        mClusterManager = new ClusterManager<MyItem>(mCtx,myMap);
-        renderer = new MyClusterRenderer(mCtx,myMap,mClusterManager);
-
-        myMap.setOnCameraIdleListener(mClusterManager);
-        myMap.setOnMarkerClickListener(mClusterManager);
-        mFirebaseInstance = FirebaseDatabase.getInstance();
-
-        // get reference to 'users' node
-        mFirebaseDatabase = mFirebaseInstance.getReference("places");
-        ClusterManager finalMClusterManager = mClusterManager;
-        finalMClusterManager.getClusterMarkerCollection().setOnInfoWindowAdapter(new CustomInfoWindowGoogleMap(mCtx));
-        myMap.setInfoWindowAdapter(new CustomInfoWindowGoogleMap(mCtx));
-        mFirebaseInstance.getReference("places").child("Dar es Salaam").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
-                        UserMapData mapData = npsnapshot.getValue(UserMapData.class);
-                        InfoWindowData infoWindowData = new InfoWindowData("snmas","ashdgaj","sashdAKHSDK","SAKJshka");
-                        MyItem offsetItem = new MyItem(mapData.getLat(), mapData.getLng(),mapData.getBusinessType(),mapData.getUsername(),npsnapshot.getKey());
-                        //renderer.setMinClusterSize(0);
-                        //finalMClusterManager.setRenderer(renderer);
-                        finalMClusterManager.addItem(offsetItem);
-                        finalMClusterManager.setAnimation(false);
-                        finalMClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
-                            @Override
-                            public boolean onClusterClick(Cluster<MyItem> cluster) {
-                                return false;
-                            }
-                        });
-                        finalMClusterManager.cluster();
-
-                    }
+                //Log.d("LOCATION DATA",addresses.toString());
+                if (LOCATION_NAME != null){
+                    saveLocationName(LOCATION_NAME);
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.e(TAG, "Failed to read app title value.", error.toException());
             }
-        });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
 
+    public void saveLocationName(String string){
+        sharedPreferencesManager.put(SharedPreferencesManager.Key.USER_LOCATION_NAME, string);
+
+    }
 }

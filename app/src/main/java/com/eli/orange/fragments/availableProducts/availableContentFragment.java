@@ -29,6 +29,7 @@ import com.eli.orange.fragments.addCenter.AddCenterFragment;
 import com.eli.orange.models.InfoWindowDatas;
 import com.eli.orange.models.Upload;
 import com.eli.orange.utils.Constants;
+import com.eli.orange.utils.SharedPreferencesManager;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.chip.ChipGroup;
@@ -60,17 +61,17 @@ public class availableContentFragment extends Fragment {
     ChipGroup entryChipGroup;
     @BindView(R.id.content_recycler)
     RecyclerView recyclerView;
+    private Upload upload;
+    private String USER_KEY;
 
 
     private FirebaseAuth auth;
     private FirebaseDatabase mFirebaseInstance;
     private List<Upload> uploads;
     private availableContentAdapter adapter;
-
+    private String LOCATION_NAME;
     //Data variables
     private Double longitud, latitud;
-
-
     public availableContentFragment() {
         // Required empty public constructor
     }
@@ -85,6 +86,7 @@ public class availableContentFragment extends Fragment {
         view.setVisibility(View.GONE);
         mFirebaseInstance = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
+        LOCATION_NAME = new SharedPreferencesManager(getContext()).getString(SharedPreferencesManager.Key.USER_LOCATION_NAME);
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -95,14 +97,14 @@ public class availableContentFragment extends Fragment {
         adapter = new availableContentAdapter(getContext());
 
         getData();
+        getLocationData("food and drinks");
 
         return view;
 
     }
 
 
-
-    private Chip getChip(final ChipGroup entryChipGroup, String text, Context context,int id) {
+    private Chip getChip(final ChipGroup entryChipGroup, String text, Context context, int id) {
         Chip chip = new Chip(context);
         chip.setChipIconTintResource(R.color.primaryColor);
         chip.setChipStrokeColorResource(R.color.secondaryDarkColor);
@@ -117,11 +119,14 @@ public class availableContentFragment extends Fragment {
         chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
         chip.setText(text);
         chip.setId(id);
+        chip.setTextColor(getResources().getColor(R.color.white));
+        chip.setChipStrokeColorResource(R.color.white);
+        chip.setChipBackgroundColorResource(R.color.blue);
         chip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               //Toast.makeText(getContext(), chip.getText(),Toast.LENGTH_LONG).show();
-               getLocationData(chip.getText().toString());
+                //Toast.makeText(getContext(), chip.getText(),Toast.LENGTH_LONG).show();
+                getLocationData(chip.getText().toString());
 
             }
         });
@@ -129,10 +134,10 @@ public class availableContentFragment extends Fragment {
         return chip;
     }
 
-    private void getData(){
+    private void getData() {
 
         if (auth.getCurrentUser() != null) {
-            mFirebaseInstance.getReference("places").child("Dar es Salaam").addValueEventListener(new ValueEventListener() {
+            mFirebaseInstance.getReference(Constants.DATABASE_PATH_PLACES).child(LOCATION_NAME).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -141,10 +146,10 @@ public class availableContentFragment extends Fragment {
                         latitud = data.getMLocationLatitude();
                         longitud = data.getMLocationLongitude();
 
-                        Log.d("DATAS","latitude:"+latitud+ ","+"longitude"+longitud);
+                        //Log.d("DATAS","latitude:"+latitud+ ","+"longitude"+longitud);
 
                         for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
-                            Chip entryChip = getChip(entryChipGroup, npsnapshot.getKey(), getContext(),1);
+                            Chip entryChip = getChip(entryChipGroup, npsnapshot.getKey(), getContext(), 1);
                             entryChipGroup.addView(entryChip);
                             getLocationData(npsnapshot.getKey());
                             /*for (DataSnapshot childsnapshot: npsnapshot.getChildren()){
@@ -195,8 +200,8 @@ public class availableContentFragment extends Fragment {
         }
     }
 
-    public void getLocationData(String queryString){
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("places").child("Dar es Salaam").child(queryString);
+    public void getLocationData(String queryString) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_PLACES).child(LOCATION_NAME).child(queryString);
 
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -204,55 +209,58 @@ public class availableContentFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if (dataSnapshot.exists()) {
-                    if (dataSnapshot.hasChildren()){
-                        for (DataSnapshot childSnapshot : dataSnapshot.getChildren()){
-                           // Log.d("FIRTS CHIRLD KEY", childSnapshot.getKey());
+                    uploads.clear();
+                    if (dataSnapshot.hasChildren()) {
+                        for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                            Log.d("FIRTS CHIRLD KEY", childSnapshot.getKey());
+                            USER_KEY = childSnapshot.getKey();
+
+                            DatabaseReference uploadDatabase = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS).child(USER_KEY);
+
+                            uploadDatabase.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnap) {
+
+                                    // Log.d("SECOND CHLD DATA", dataSnap.toString());
+
+                                    if (dataSnap.exists()) {
+
+                                        InfoWindowDatas data = childSnapshot.getValue(InfoWindowDatas.class);
+                                        latitud = data.getMLocationLatitude();
+                                        longitud = data.getMLocationLongitude();
 
 
-                   DatabaseReference uploadDatabase = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS).child(childSnapshot.getKey());
+                                        uploads.clear();
+                                        for (DataSnapshot datasnap : dataSnap.getChildren()) {
 
-                   uploadDatabase.addValueEventListener(new ValueEventListener() {
-                       @Override
-                       public void onDataChange(@NonNull DataSnapshot dataSnap) {
-
-                          // Log.d("SECOND CHLD DATA", dataSnap.toString());
-
-                           if (dataSnap.exists()){
-
-                               InfoWindowDatas data = childSnapshot.getValue(InfoWindowDatas.class);
-                               latitud = data.getMLocationLatitude();
-                               longitud = data.getMLocationLongitude();
+                                            //Log.d("SECOND CHLD DATA", datasnap.toString());
+                                            upload = datasnap.getValue(Upload.class);
+                                            upload.setLatitude(latitud);
+                                            upload.setLongitude(longitud);
+                                            upload.setUserKey(USER_KEY);
+                                            upload.setProductKey(datasnap.getKey());
 
 
-                               uploads.clear();
-                               for (DataSnapshot datasnap : dataSnap.getChildren()) {
-
-                                   //Log.d("SECOND CHLD DATA", datasnap.toString());
-                                   Upload upload = datasnap.getValue(Upload.class);
-                                   upload.setLatitude(latitud);
-                                   upload.setLongitude(longitud);
+                                            uploads.add(upload);
+                                            adapter.addItems(uploads);
+                                            recyclerView.setAdapter(adapter);
+                                            view.setVisibility(View.VISIBLE);
 
 
-                                   uploads.add(upload);
-                                   adapter.addItems(uploads);
-                                   recyclerView.setAdapter(adapter);
-                                   view.setVisibility(View.VISIBLE);
+                                            //Log.d("AFTER LATLANG SET", upload.toString());
 
+                                        }
+                                    }
 
-                                   Log.d("AFTER LATLANG SET", upload.toString());
+                                }
 
-                               }
-                           }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                       }
+                                }
+                            });
 
-                       @Override
-                       public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                       }
-                   });
-
-                }
+                        }
                     }
                 }
 

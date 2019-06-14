@@ -12,6 +12,15 @@ import static com.facebook.stetho.inspector.network.ResponseHandlingInputStream.
 
 @IgnoreExtraProperties
 public class Upload implements Parcelable {
+
+    private String title;
+    private String description;
+    private String price;
+    private Double longitude;
+    private Double latitude;
+    private String url;
+    private String productKey;
+
     public Upload(Parcel in) {
         title = in.readString();
         description = in.readString();
@@ -19,6 +28,9 @@ public class Upload implements Parcelable {
         url = in.readString();
         longitude = in.readDouble();
         latitude = in.readDouble();
+        userKey = in.readString();
+        productKey = in.readString();
+
     }
 
     public static final Creator<Upload> CREATOR = new Creator<Upload>() {
@@ -71,15 +83,24 @@ public class Upload implements Parcelable {
         this.url = url;
     }
 
-    private String title;
-    private String description;
+    public String getProductKey() {
+        return this.productKey;
+    }
+
+    public void setProductKey(final String productKey) {
+        this.productKey = productKey;
+    }
 
 
+    public String getUserKey() {
+        return this.userKey;
+    }
 
-    private String price;
-    private Double longitude;
-    private Double latitude;
-    private String url;
+    public void setUserKey(final String userKey) {
+        this.userKey = userKey;
+    }
+
+    private String userKey;
 
     public Double getLongitude() {
         return this.longitude;
@@ -125,6 +146,8 @@ public class Upload implements Parcelable {
         dest.writeString(url);
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
+        dest.writeString(userKey);
+        dest.writeString(productKey);
     }
 
 

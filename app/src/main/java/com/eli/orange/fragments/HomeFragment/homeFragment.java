@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -15,6 +17,9 @@ import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProviders;
+
 import butterknife.ButterKnife;
 
 import android.util.Log;
@@ -33,7 +38,9 @@ import com.eli.orange.models.MyItem;
 import com.eli.orange.models.UserMapData;
 import com.eli.orange.restApi.model.ApiInterface;
 import com.eli.orange.models.Cities;
+import com.eli.orange.utils.Constants;
 import com.eli.orange.utils.PermissionAccessManager;
+import com.eli.orange.utils.SharedPreferencesManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -54,6 +61,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 
+import java.io.IOException;
 import java.util.List;
 
 import static android.content.Context.LOCATION_SERVICE;
@@ -81,6 +89,8 @@ public class homeFragment extends BaseFragmentActivity implements
     private InfoWindowDatas infoWindowDatas;
     private CustomInfoWindowGoogleMap customInfoWindow;
     private Location userLocaction = null;
+    private ViewModel mViewModel;
+
 
     // Millisecond
     private final long MIN_TIME_BW_UPDATES = 1000;
@@ -97,7 +107,9 @@ public class homeFragment extends BaseFragmentActivity implements
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
+        mViewModel = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
 
+        ((HomeFragmentViewModel) mViewModel).displayData();
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
@@ -153,7 +165,7 @@ public class homeFragment extends BaseFragmentActivity implements
                 // MapData loaded. Dismiss this dialog, removing it from the screen.
                 hideProgressBar();
                 if (auth.getCurrentUser() != null) {
-                    mFirebaseInstance.getReference("places").child("Dar es Salaam").addValueEventListener(new ValueEventListener() {
+                    mFirebaseInstance.getReference(Constants.DATABASE_PATH_PLACES).child(new SharedPreferencesManager(getContext()).getString(SharedPreferencesManager.Key.USER_LOCATION_NAME)).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
@@ -192,9 +204,9 @@ public class homeFragment extends BaseFragmentActivity implements
 
                                             showMyLocation();
                                             // Creates a CameraPosition from the builder
-                                            //myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                                            myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-                                            //myMap.moveCamera(CameraUpdateFactory.newLatLng(markerPosition));
+                                            myMap.moveCamera(CameraUpdateFactory.newLatLng(markerPosition));
 
 
                                         }
@@ -246,13 +258,16 @@ public class homeFragment extends BaseFragmentActivity implements
         LatLng latLng= new LatLng(latitude,longitude);
         myMap.addMarker(new MarkerOptions()
                 .position(latLng)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                .title("Here")
+                .snippet("....")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(latLng)             // Sets the center of the map to location user
                 .zoom(15)                   // Sets the zoom
                 .build();
         myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
     }
 
     // Call this method only when you have the permissions to view a user's location.
@@ -288,12 +303,12 @@ public class homeFragment extends BaseFragmentActivity implements
         if (myLocation != null) {
 
             LatLng latLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+            presenter.saveLocationData(latLng);
             myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(latLng)             // Sets the center of the map to location user
                     .zoom(15)                   // Sets the orientation of the camera to east
-                    .tilt(40)                   // Sets the tilt of the camera to 30 degrees
                     .build();                   // Creates a CameraPosition from the builder
             myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             // Add Marker to MapData
@@ -313,6 +328,8 @@ public class homeFragment extends BaseFragmentActivity implements
 
     @Override
     public void onLocationChanged(Location location) {
+        new SharedPreferencesManager(getContext()).put(SharedPreferencesManager.Key.USER_LOCATION_NAME,getUserLocationName(new LatLng(location.getLatitude(),location.getLongitude())));
+
 
     }
 
@@ -332,6 +349,7 @@ public class homeFragment extends BaseFragmentActivity implements
     }
 
 
+
     @Override
     public void showProgressBar() {
 
@@ -349,6 +367,27 @@ public class homeFragment extends BaseFragmentActivity implements
     public void hideProgressBar() {
         myProgress.dismiss();
 
+    }
+    public String getUserLocationName(LatLng latLng){
+        String localityString = null;
+        Geocoder geocoder = new Geocoder(getContext());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
+            if (geocoder.isPresent()) {
+                StringBuilder stringBuilder = new StringBuilder();
+                if (addresses.size()>0) {
+                    Address returnAddress = addresses.get(0);
+
+                    localityString = returnAddress.getLocality();
+                }
+            } else {
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return localityString;
     }
 
     @Override

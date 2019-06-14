@@ -14,8 +14,8 @@
 
     <!-- Navigation Drawer menu labels -->
     <string name="nav_home">Home</string>
-    <string name="nav_photos">History</string>
-    <string name="nav_movies">Movies</string>
+    <string name="nav_photos">Orders</string>
+    <string name="nav_movies">Add Center</string>
     <string name="nav_uploads">Uploads</string>
     <string name="nav_notifications">Notifications</string>
     <string name="nav_settings">Settings</string>
@@ -34,8 +34,8 @@
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">
         <item>Home</item>
-        <item>Your Location History</item>
-        <item>Transactions</item>
+        <item>Orders</item>
+        <item>Center</item>
         <item>Uploads</item>
         <item>Settings</item>
         <item>Licences</item>
@@ -52,7 +52,7 @@
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
         nisi ut aliquip ex ea commodo consequat.</string>
-    <string name="add_new_account_profile">Create New Account</string>
+    <string name="add_new_account_profile">Create/Update Your Center</string>
     <string name="username">username</string>
     <string name="business_name">Business Name</string>
     <string name="location_grid">Longitude and latitude</string>
@@ -76,7 +76,7 @@
     <string name="hint_password">Password</string>
     <string name="hint_name">Fullname</string>
     <string name="btn_login">LOGIN</string>
-    <string name="btn_link_to_register">Not a member? Get registered in Firebase now!</string>
+    <string name="btn_link_to_register">Not a member? Register now!</string>
     <string name="btn_link_to_login">Already registered. Login Me!</string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
     <string name="btn_forgot_password">Forgot your password?</string>
@@ -93,7 +93,7 @@
     <string name="nav_add_center">Add</string>
     <string name="user_profile">User Profile</string>
     <string name="string_update">Update</string>
-    <string name="string_call">call</string>
+    <string name="string_call">\t call</string>
     <string name="string_sms">SMS</string>
     <string name="string_work">Work</string>
     <string name="demo_username">Demo Username</string>
@@ -111,4 +111,5 @@
     <string name="closing_time_is_manadatory">Clossing Time is Mandatory</string>
     <string name="email_is_required">Email Address is mandatory</string>
     <string name="phone_is_required">Phone no. is required</string>
+    <string name="email_sample">developine.com@gmail.com</string>
 </resources>
