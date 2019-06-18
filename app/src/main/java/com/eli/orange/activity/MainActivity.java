@@ -16,6 +16,7 @@ import com.eli.orange.fragments.addCenter.AddCenterFragment;
 import com.eli.orange.fragments.uploadsFragment;
 import com.eli.orange.models.Upload;
 import com.eli.orange.models.User;
+import com.eli.orange.utils.SharedPreferencesManager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -65,11 +66,12 @@ public class MainActivity extends BaseActivity {
     DrawerLayout drawer;
     private View navHeader;
     private ImageView imgNavHeaderBg, imgProfile;
-    private TextView txtName, txtWebsite;
+    private TextView txtName, txtWebsite, txtPlace;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.viewfab)
     FloatingActionButton fab;
+    private SharedPreferencesManager preferencesManager;
 
     private FirebaseAuth auth;
 
@@ -96,7 +98,7 @@ public class MainActivity extends BaseActivity {
     private static final String TAG_SETTINGS = "settings";
     private static final String TAG_LICENCES = "Licences";
     public static String CURRENT_TAG = TAG_HOME;
-    private BottomSheetFragment bottomSheetFragment =null;
+    private BottomSheetFragment bottomSheetFragment = null;
     private List<Upload> uploads;
 
     private DatabaseReference databaseReference;
@@ -107,7 +109,7 @@ public class MainActivity extends BaseActivity {
     // flag to load home fragment when user presses back key
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
-    private  ActionBarDrawerToggle actionBarDrawerToggle;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
 
     @Override
@@ -125,7 +127,7 @@ public class MainActivity extends BaseActivity {
 
         uploads = new ArrayList<>();
         bottomSheetFragment = new BottomSheetFragment();
-
+        preferencesManager = new SharedPreferencesManager(this);
 
 
         mHandler = new Handler();
@@ -169,6 +171,7 @@ public class MainActivity extends BaseActivity {
         // Navigation view header
         navHeader = navigationView.getHeaderView(0);
         txtName = (TextView) navHeader.findViewById(R.id.name);
+        txtPlace = (TextView) navHeader.findViewById(R.id.place);
         txtWebsite = (TextView) navHeader.findViewById(R.id.website);
         imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
         imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
@@ -217,7 +220,8 @@ public class MainActivity extends BaseActivity {
         // showing dot next to notifications label
         navigationView.getMenu().getItem(3).setActionView(R.layout.menu_dot);
     }
-    private void showBottomSheet(){
+
+    private void showBottomSheet() {
         if (!bottomSheetFragment.isVisible()) {
             bottomSheetFragment.setStyle(DialogFragment.STYLE_NO_FRAME, R.style.AppBottomSheetDialogTheme);
             final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -507,8 +511,13 @@ public class MainActivity extends BaseActivity {
     }
 
     void updateUI(DataSnapshot dataSnapshot) {
+
         User user = dataSnapshot.getValue(User.class);
         txtName.setText(user.getUsername());
+        txtPlace.setText("Location: " + preferencesManager.getString(SharedPreferencesManager.Key.USER_LOCATION_NAME) + ": " +
+                preferencesManager.getString(SharedPreferencesManager.Key.USER_LOCATION_LONGITUDE) + "," +
+                preferencesManager.getString(SharedPreferencesManager.Key.USER_LOCATION_LATITUDE));
+
         txtWebsite.setText(Html.fromHtml(user.getEmail()));
 
         // loading header background image
@@ -541,7 +550,6 @@ public class MainActivity extends BaseActivity {
         final AlertDialog alert = builder.create();
         alert.show();
     }
-
 
 
 }

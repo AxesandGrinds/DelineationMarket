@@ -68,7 +68,7 @@ public class homeFragmentPresenter {
         sharedPreferencesManager.put(SharedPreferencesManager.Key.USER_LOCATION_LATITUDE, latLng.latitude);
         sharedPreferencesManager.put(SharedPreferencesManager.Key.USER_LOCATION_LONGITUDE, latLng.longitude);
 
-        getLocationName();
+        //getLocationName();
     }
 
     public void getLocationName() {

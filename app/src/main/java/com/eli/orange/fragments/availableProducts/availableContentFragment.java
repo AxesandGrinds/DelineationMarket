@@ -15,9 +15,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eli.orange.R;
@@ -137,7 +139,7 @@ public class availableContentFragment extends Fragment {
     private void getData() {
 
         if (auth.getCurrentUser() != null) {
-            mFirebaseInstance.getReference(Constants.DATABASE_PATH_PLACES).child(LOCATION_NAME).addValueEventListener(new ValueEventListener() {
+            mFirebaseInstance.getReference(Constants.DATABASE_PATH_PLACES).child(LOCATION_NAME).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -151,7 +153,7 @@ public class availableContentFragment extends Fragment {
                         for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
                             Chip entryChip = getChip(entryChipGroup, npsnapshot.getKey(), getContext(), 1);
                             entryChipGroup.addView(entryChip);
-                            getLocationData(npsnapshot.getKey());
+                            //getLocationData(npsnapshot.getKey());
                             /*for (DataSnapshot childsnapshot: npsnapshot.getChildren()){
 
                                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS).child(childsnapshot.getKey());
@@ -187,6 +189,8 @@ public class availableContentFragment extends Fragment {
                         }
 
 
+                    }else {
+                        displayToast("No Data Available in: "+new SharedPreferencesManager(getContext()).getString(SharedPreferencesManager.Key.USER_LOCATION_NAME));
                     }
                 }
 
@@ -273,6 +277,17 @@ public class availableContentFragment extends Fragment {
             }
         });
 
+    }
+    void displayToast(String message) {
+        View toastLayout = LayoutInflater.from(getContext()).inflate(R.layout.toast_layout, null);
+        TextView text = toastLayout.findViewById(R.id.textView);
+        text.setText(message);
+
+        Toast toast = new Toast(getContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(toastLayout);
+        toast.show();
     }
 
 

@@ -101,6 +101,9 @@ dependencies {
     //VerticalStepper
     //implementation 'com.ernestoyaquello.stepperform:vertical-stepper-form:2.2.0'
 
+    //RXFirebase
+    implementation 'com.github.frangsierra:rx2firebase:1.1.3'
+
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"

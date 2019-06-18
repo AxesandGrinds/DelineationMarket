@@ -112,4 +112,6 @@
     <string name="email_is_required">Email Address is mandatory</string>
     <string name="phone_is_required">Phone no. is required</string>
     <string name="email_sample">developine.com@gmail.com</string>
+    <string name="products">Products</string>
+    <string name="search">Search</string>
 </resources>

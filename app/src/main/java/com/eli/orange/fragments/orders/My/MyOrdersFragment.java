@@ -22,6 +22,7 @@ import com.eli.orange.fragments.orders.Orders;
 import com.eli.orange.room.model.roomViewModel;
 import com.eli.orange.utils.Constants;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,6 +49,8 @@ public class MyOrdersFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseDatabase mFirebaseInstance;
     private List<Orders> orders =new ArrayList<>();
+    private ValueEventListener listener = null;
+    private DatabaseReference databaseReference;
 
 
     public MyOrdersFragment() {
@@ -72,18 +75,25 @@ public class MyOrdersFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStop() {
+        databaseReference.removeEventListener(listener);
+        super.onStop();
+    }
+
     public class fetchDataInbackground extends AsyncTask<Void, Void, Void> {
+
 
         @Override
         protected Void doInBackground(Void... voids) {
             recyclerViewAdapter = new MyOrdersAdapter(getContext());
 
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.DATABASE_PATH_ORDERS);
+             databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.DATABASE_PATH_ORDERS);
 
             //Create query for database Child reference
             Query applesQuery = databaseReference.orderByChild("customerIdentity").equalTo(auth.getCurrentUser().getUid());
 
-            applesQuery.addValueEventListener(new ValueEventListener() {
+             listener= applesQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -101,6 +111,7 @@ public class MyOrdersFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
+                    databaseReference.removeEventListener(listener);
                     Log.e(Constants.TAG, "onCancelled", databaseError.toException());
                 }
             });
@@ -116,7 +127,12 @@ public class MyOrdersFragment extends Fragment {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
 
 
+        }
 
+        @Override
+        protected void onCancelled() {
+            databaseReference.removeEventListener(listener);
+            super.onCancelled();
         }
     }
    /* private void getHeaderAndChild(List<Orders> movieList) {

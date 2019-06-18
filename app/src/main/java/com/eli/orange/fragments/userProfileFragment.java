@@ -45,7 +45,7 @@ public class userProfileFragment extends Fragment {
     ImageView userProfileImage;
     @BindView(R.id.profile_username)
     TextView userProfileUsername;
-    @BindView(R.id.tvNumber3)
+    @BindView(R.id.tvNumber2)
     TextView userProfileEmail;
     @BindView(R.id.button_profile_remove_contact)
     Button removeContact;

@@ -23,9 +23,11 @@ import androidx.lifecycle.ViewModelProviders;
 import butterknife.ButterKnife;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eli.orange.R;
@@ -72,7 +74,7 @@ import static com.eli.orange.utils.Constants.TAG_CODE_PERMISSION_LOCATION;
  * A simple {@link Fragment} subclass.
  */
 public class homeFragment extends BaseFragmentActivity implements
-        LocationListener,homeFragmentPresenter.View, GoogleMap.OnInfoWindowLongClickListener {
+        LocationListener, homeFragmentPresenter.View, GoogleMap.OnInfoWindowLongClickListener {
     View view;
     private static final String TAG = "TAG";
     private GoogleMap myMap;
@@ -90,6 +92,9 @@ public class homeFragment extends BaseFragmentActivity implements
     private CustomInfoWindowGoogleMap customInfoWindow;
     private Location userLocaction = null;
     private ViewModel mViewModel;
+    private SharedPreferencesManager preferencesManager;
+    private Geocoder geocoder;
+    private List<Address> user = null;
 
 
     // Millisecond
@@ -110,6 +115,8 @@ public class homeFragment extends BaseFragmentActivity implements
         mViewModel = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
 
         ((HomeFragmentViewModel) mViewModel).displayData();
+
+        preferencesManager = new SharedPreferencesManager(getContext());
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
@@ -165,72 +172,69 @@ public class homeFragment extends BaseFragmentActivity implements
                 // MapData loaded. Dismiss this dialog, removing it from the screen.
                 hideProgressBar();
                 if (auth.getCurrentUser() != null) {
-                    mFirebaseInstance.getReference(Constants.DATABASE_PATH_PLACES).child(new SharedPreferencesManager(getContext()).getString(SharedPreferencesManager.Key.USER_LOCATION_NAME)).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                myMap.clear();
-                                for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
-                                    if (npsnapshot.hasChildren()) {
-                                        for (DataSnapshot childSnapshot : npsnapshot.getChildren()) {
+                    mFirebaseInstance.getReference(Constants.DATABASE_PATH_PLACES)
+                            .child(new SharedPreferencesManager(getContext()).getString(SharedPreferencesManager.Key.USER_LOCATION_NAME))
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        myMap.clear();
+                                        for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
+                                            if (npsnapshot.hasChildren()) {
+                                                for (DataSnapshot childSnapshot : npsnapshot.getChildren()) {
 
 
-                                            InfoWindowDatas data = childSnapshot.getValue(InfoWindowDatas.class);
+                                                    InfoWindowDatas data = childSnapshot.getValue(InfoWindowDatas.class);
 
 
-                                            infoWindowDatas = new InfoWindowDatas(childSnapshot.getKey(), data.getMBusinessName(), data.getMLocationEmail(), data.getMLocationPhone(),
-                                                    data.getMOpenignHours(), data.getMClossingHours(), data.getBusinessTYpe(), data.getMCityName(), data.getMLocationLongitude(),
-                                                    data.getMLocationLatitude());
+                                                    infoWindowDatas = new InfoWindowDatas(childSnapshot.getKey(), data.getMBusinessName(), data.getMLocationEmail(), data.getMLocationPhone(),
+                                                            data.getMOpenignHours(), data.getMClossingHours(), data.getBusinessTYpe(), data.getMCityName(), data.getMLocationLongitude(),
+                                                            data.getMLocationLatitude());
 
 
-                                            LatLng markerPosition = new LatLng(data.getMLocationLatitude(), data.getMLocationLongitude());
-                                            MarkerOptions markerOptions = new MarkerOptions().position(markerPosition)
-                                                    .title(infoWindowDatas.getMBusinessName());
+                                                    LatLng markerPosition = new LatLng(data.getMLocationLatitude(), data.getMLocationLongitude());
+                                                    MarkerOptions markerOptions = new MarkerOptions().position(markerPosition)
+                                                            .title(infoWindowDatas.getMBusinessName());
 
 
+                                                    Marker marker = myMap.addMarker(markerOptions);
+                                                    customInfoWindow = new CustomInfoWindowGoogleMap(getActivity());
+                                                    myMap.setInfoWindowAdapter(customInfoWindow);
+
+                                                    marker.setTag(infoWindowDatas);
+                                                    //marker.showInfoWindow();
+
+                                                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                                                            .target(markerPosition)             // Sets the center of the map to location user
+                                                            .zoom(15)                   // Sets the zoom
+                                                            .build();
+
+                                                    showMyLocation();
+                                                    // Creates a CameraPosition from the builder
+                                                    myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+                                                    myMap.moveCamera(CameraUpdateFactory.newLatLng(markerPosition));
 
 
-                                            Marker marker = myMap.addMarker(markerOptions);
-                                            customInfoWindow = new CustomInfoWindowGoogleMap(getActivity());
-                                            myMap.setInfoWindowAdapter(customInfoWindow);
-
-                                            marker.setTag(infoWindowDatas);
-                                            //marker.showInfoWindow();
-
-                                            CameraPosition cameraPosition = new CameraPosition.Builder()
-                                                    .target(markerPosition)             // Sets the center of the map to location user
-                                                    .zoom(15)                   // Sets the zoom
-                                                    .build();
-
-                                            showMyLocation();
-                                            // Creates a CameraPosition from the builder
-                                            myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-                                            myMap.moveCamera(CameraUpdateFactory.newLatLng(markerPosition));
+                                                }
+                                            }
 
 
                                         }
                                     }
-
-
                                 }
-                            }
-                        }
 
 
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            // Failed to read value
-                            Log.e(TAG, "Failed to read app title value.", error.toException());
-                        }
+                                @Override
+                                public void onCancelled(DatabaseError error) {
+                                    // Failed to read value
+                                    Log.e(TAG, "Failed to read app title value.", error.toException());
+                                }
 
-                    });
-                }else
-                {
-
+                            });
+                } else {
+                    displayToast("Un authorized entity");
                 }
-
-
 
                 permissionAccessManager.askLocationPermission();
             }
@@ -247,15 +251,15 @@ public class homeFragment extends BaseFragmentActivity implements
             myMap.getUiSettings().setMyLocationButtonEnabled(true);
         } else {
 
-            ActivityCompat.requestPermissions(getActivity(), new String[] {
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION },
-                TAG_CODE_PERMISSION_LOCATION);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
+                    TAG_CODE_PERMISSION_LOCATION);
         }
     }
 
-    public void displayPositionMarker(Double latitude, Double longitude){
-        LatLng latLng= new LatLng(latitude,longitude);
+    public void displayPositionMarker(Double latitude, Double longitude) {
+        LatLng latLng = new LatLng(latitude, longitude);
         myMap.addMarker(new MarkerOptions()
                 .position(latLng)
                 .title("Here")
@@ -295,13 +299,11 @@ public class homeFragment extends BaseFragmentActivity implements
         // With Android API >= 23, need to catch SecurityException.
         catch (SecurityException e) {
             Toast.makeText(getContext(), "Show My Location Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            Log.e(TAG, "Show My Location Error:" + e.getMessage());
             e.printStackTrace();
             return;
         }
 
         if (myLocation != null) {
-
             LatLng latLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
             presenter.saveLocationData(latLng);
             myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
@@ -318,8 +320,8 @@ public class homeFragment extends BaseFragmentActivity implements
             option.position(latLng);
             Marker currentMarker = myMap.addMarker(option);
         } else {
-            Toast.makeText(getContext(), "Location not found!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "Location not found");
+            displayToast("Location not found!");
+
         }
 
 
@@ -328,7 +330,15 @@ public class homeFragment extends BaseFragmentActivity implements
 
     @Override
     public void onLocationChanged(Location location) {
-        new SharedPreferencesManager(getContext()).put(SharedPreferencesManager.Key.USER_LOCATION_NAME,getUserLocationName(new LatLng(location.getLatitude(),location.getLongitude())));
+        /*String LOCATION_NAME = getUserLocationName(new LatLng(location.getLatitude(), location.getLongitude()));
+        if (preferencesManager.getString(SharedPreferencesManager.Key.USER_LOCATION_NAME).equals(LOCATION_NAME)) {
+            //displayToast("Same Location");
+        } else {
+            preferencesManager.put(SharedPreferencesManager.Key.USER_LOCATION_NAME, LOCATION_NAME);
+            displayToast("Location Changed");
+        }
+        preferencesManager.put(SharedPreferencesManager.Key.USER_LOCATION_LATITUDE, location.getLatitude());
+        preferencesManager.put(SharedPreferencesManager.Key.USER_LOCATION_LONGITUDE, location.getLongitude());*/
 
 
     }
@@ -349,7 +359,6 @@ public class homeFragment extends BaseFragmentActivity implements
     }
 
 
-
     @Override
     public void showProgressBar() {
 
@@ -357,7 +366,7 @@ public class homeFragment extends BaseFragmentActivity implements
         myProgress = new ProgressDialog(getContext());
         myProgress.setTitle("MapData Loading ...");
         myProgress.setMessage("Please wait...");
-        myProgress.setCancelable(true);
+        myProgress.setCancelable(false);
         // Display Progress Bar.
         myProgress.show();
 
@@ -368,20 +377,19 @@ public class homeFragment extends BaseFragmentActivity implements
         myProgress.dismiss();
 
     }
-    public String getUserLocationName(LatLng latLng){
+
+    public String getUserLocationName(LatLng latLng) {
         String localityString = null;
-        Geocoder geocoder = new Geocoder(getContext());
+        geocoder = new Geocoder(getContext());
         try {
-            List<Address> addresses = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
-            if (geocoder.isPresent()) {
-                StringBuilder stringBuilder = new StringBuilder();
-                if (addresses.size()>0) {
-                    Address returnAddress = addresses.get(0);
+            user = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            Address address = user.get(0);
 
-                    localityString = returnAddress.getLocality();
-                }
+            Log.d("ADDRESS",address.toString());
+            if (!address.getLocality().isEmpty()) {
+                localityString = address.getLocality();
             } else {
-
+                localityString = "Dar es Salaam";
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -393,23 +401,31 @@ public class homeFragment extends BaseFragmentActivity implements
     @Override
     public void onInfoWindowLongClick(Marker marker) {
 
-        InfoWindowDatas infoDatas = (InfoWindowDatas)marker.getTag();
-
-        //Log.d("MARKER DATA",infoDatas.getMUserId());
+        InfoWindowDatas infoDatas = (InfoWindowDatas) marker.getTag();
 
         GetUserUploadsFragment uploadsFragment = new GetUserUploadsFragment();
         Bundle args = new Bundle();
         args.putString("USER_ID", infoDatas.getMUserId());
-        args.putDouble("saddrlon",marker.getPosition().longitude);
-        args.putDouble("daddrlon",myMap.getMyLocation().getLongitude());
-        args.putDouble("saddrlat",marker.getPosition().latitude);
-        args.putDouble("daddrlat",myMap.getMyLocation().getLatitude());
-
+        args.putDouble("saddrlon", marker.getPosition().longitude);
+        args.putDouble("daddrlon", myMap.getMyLocation().getLongitude());
+        args.putDouble("saddrlat", marker.getPosition().latitude);
+        args.putDouble("daddrlat", myMap.getMyLocation().getLatitude());
         uploadsFragment.setArguments(args);
-
-
         getFragmentManager().beginTransaction().replace(R.id.frame, uploadsFragment).commit();
         //((MainActivity) getActivity()).replaceFragments(uploadsFragment.getClass());
+    }
+
+    void displayToast(String message) {
+        View toastLayout = LayoutInflater.from(getContext()).inflate(R.layout.toast_layout, null);
+        TextView text = toastLayout.findViewById(R.id.textView);
+        text.setText(message);
+
+        Toast toast = new Toast(getContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(toastLayout);
+        toast.setDuration(LENGTH_SHORT);
+        toast.show();
     }
 }
 

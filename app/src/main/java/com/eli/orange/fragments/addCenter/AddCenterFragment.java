@@ -2,6 +2,7 @@ package com.eli.orange.fragments.addCenter;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -34,7 +35,10 @@ import com.eli.orange.R;
 import com.eli.orange.activity.MainActivity;
 import com.eli.orange.fragments.addCenter.AddCenterFragmentPresenter;
 import com.eli.orange.models.InfoWindowDatas;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -47,6 +51,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -100,7 +105,7 @@ public class AddCenterFragment extends Fragment implements AddCenterFragmentPres
     int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
     int minute = myCalendar.get(Calendar.MINUTE);
     private InfoWindowDatas windowDatas;
-
+    private FusedLocationProviderClient fusedLocationClient;
 
 
     @Override
@@ -109,6 +114,8 @@ public class AddCenterFragment extends Fragment implements AddCenterFragmentPres
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_add_center, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+
 
         progressBar = new ProgressBar(getContext(), null, android.R.attr.progressBarStyleSmall);
         presenter = new AddCenterFragmentPresenter(getContext());
@@ -240,8 +247,7 @@ public class AddCenterFragment extends Fragment implements AddCenterFragmentPres
 
 
     void callForData() {
-        progressBar.setVisibility(View.VISIBLE);
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    Activity#requestPermissions
@@ -252,25 +258,13 @@ public class AddCenterFragment extends Fragment implements AddCenterFragmentPres
             // for Activity#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MINIMUM_TIME_BETWEEN_UPDATES, MINIMUM_DISTANCE_CHANGE_FOR_UPDATES, new MyLocationListener());
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) { }
-        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        fusedLocationClient.getLastLocation().addOnSuccessListener((Activity) getContext(), new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                updateUI(location);
 
-
-        if (location == null) {
-
-            NoDataTextView.setVisibility(View.VISIBLE);
-            Toast.makeText(getContext(), "Location Not found", Toast.LENGTH_LONG).show();
-        } else {
-            geocoder = new Geocoder(getContext());
-            try {
-               updateUI(location);
-
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-
-        }
+        });
     }
 
 
