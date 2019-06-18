@@ -5,12 +5,12 @@
 
         <item
             android:id="@+id/bottom_home"
-            android:icon="@drawable/google_maps"
-            android:title="@string/nav_add_center" />
+            android:icon="@drawable/alpha_p_circle"
+            android:title="@string/products" />
         <item
             android:id="@+id/bottom_notifications"
-            android:icon="@drawable/bell_ring"
-            android:title="@string/nav_notifications" />
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/search" />
         <item
             android:id="@+id/bottom_history"
             android:icon="@drawable/google_maps"

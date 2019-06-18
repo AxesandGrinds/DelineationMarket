@@ -13,3 +13,6 @@
 /build
 /captures
 .externalNativeBuild
+keystroke.jks
+private_key.pepk
+/app/release

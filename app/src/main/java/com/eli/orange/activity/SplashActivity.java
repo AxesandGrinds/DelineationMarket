@@ -6,6 +6,7 @@ import android.location.Geocoder;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.eli.orange.utils.SharedPreferencesManager;
 import com.google.android.gms.maps.model.LatLng;
@@ -48,15 +49,19 @@ public class SplashActivity extends AppCompatActivity {
     public String getUserLocationName(LatLng latLng){
         String localityString = null;
         Geocoder geocoder = new Geocoder(this);
+
         try {
             List<Address> addresses = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
+
+
+            Log.d("ADDRESS", addresses.toString());
             if (geocoder.isPresent()) {
                 StringBuilder stringBuilder = new StringBuilder();
-                if (addresses.size()>0) {
+
                     Address returnAddress = addresses.get(0);
 
                     localityString = returnAddress.getLocality();
-                }
+
             } else {
 
             }

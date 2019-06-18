@@ -1,101 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".viewSelectedItem">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constrain"
-        android:layout_width="match_parent"
-        android:layout_height="450dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/viewImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/logoassets"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="6"/>
+        tools:context=".viewSelectedItem">
 
-    <TextView
-        android:id="@+id/textBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/card_margin"
-        android:layout_marginStart="@dimen/card_margin"
-        android:drawableTint="@color/white"
-        android:drawableStart="@drawable/ic_arrow_back_black_24dp"
-        app:layout_constraintStart_toStartOf="@id/viewImageView"
-        app:layout_constraintTop_toTopOf="@id/viewImageView"
-       />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/card_margin"
-        app:layout_constraintTop_toBottomOf="@id/constrain"
-        app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/viewProductPrice"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/viewImageView"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/briefcase_plus_outline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="6" />
+
+
+        <TextView
+            android:id="@+id/textBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="$500"
-            android:textColor="#FF0000"
-            android:textStyle="bold"
-            app:chipIcon="@drawable/cash"
-            android:padding="@dimen/card_margin"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-        <TextView
-            android:id="@+id/viewProductTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Product Title"
-            android:padding="@dimen/card_margin"
-            app:layout_constraintTop_toBottomOf="@id/viewProductPrice"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/viewProductDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/_description"
-            android:padding="@dimen/card_margin"
-            android:textAllCaps="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewProductTitle"
-            />
-
-
-        <Button
-            android:id="@+id/viewOrderButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ORDER NOW"
-            app:layout_constraintTop_toBottomOf="@id/viewProductDescription"
             android:layout_marginStart="@dimen/card_margin"
-            android:layout_marginEnd="@dimen/card_margin"
-            android:visibility="invisible"
+            android:layout_marginTop="@dimen/card_margin"
+            android:drawableStart="@drawable/ic_arrow_back_black_24dp"
+            android:drawableTint="@color/white"
+            app:layout_constraintStart_toStartOf="@id/viewImageView"
+            app:layout_constraintTop_toTopOf="@id/viewImageView" />
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/card_margin"
+            android:layout_marginTop="400dp"
+            app:cardBackgroundColor="@color/primaryColor"
+            app:cardCornerRadius="@dimen/card_coner_radius"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_margin"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/viewProductPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/card_margin"
+                    android:text="$500"
+                    android:textColor="#FF0000"
+                    android:textStyle="bold"
+                    app:chipIcon="@drawable/cash"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/viewProductTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/card_margin"
+                    android:text="Product Title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/viewProductDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/card_margin"
+                    android:text="@string/_description"
+                    android:textAllCaps="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewProductTitle" />
+
+
+                <Button
+                    android:id="@+id/viewOrderButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/card_margin"
+                    android:layout_marginEnd="@dimen/card_margin"
+                    android:text="ORDER NOW"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewProductDescription" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

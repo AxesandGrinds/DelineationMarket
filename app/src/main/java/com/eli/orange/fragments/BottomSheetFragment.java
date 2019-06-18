@@ -70,7 +70,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements On
                 fragment = new userProfileFragment();
                 break;
             case id.bottom_notifications:
-                fragment = new NotificationsFragment();
+                fragment = new SearchItemsFragment();
                 break;
         }
         return loadFragment(fragment);
