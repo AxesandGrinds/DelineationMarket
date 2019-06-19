@@ -36,7 +36,7 @@ import com.eli.orange.fragments.orders.Orders;
 import com.eli.orange.models.Upload;
 import com.eli.orange.utils.Constants;
 import com.eli.orange.utils.GlideApp;
-import com.eli.orange.viewSelectedItem;
+import com.eli.orange.activity.viewSelectedItem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

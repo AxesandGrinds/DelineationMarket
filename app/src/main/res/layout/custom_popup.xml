@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="350dp"
     android:layout_height="wrap_content"
-    android:background="@color/primaryColor"
+    android:background="#f5f5f5"
     android:padding="5dp"
     android:layout_gravity="center">
 
@@ -20,7 +20,6 @@
             android:textStyle="bold"
             android:layout_marginTop="@dimen/card_margin"
             android:text="@string/app_name"
-            android:textColor="@color/white"
             android:layout_marginStart="5dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/popupProductImage"/>
@@ -53,7 +52,6 @@
             android:textStyle="bold"
             android:text="@string/app_name"
             android:layout_marginStart="5dp"
-            android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
             app:layout_constraintTop_toBottomOf="@id/popupProductTitle"
             app:layout_constraintStart_toEndOf="@id/popupProductImage"/>
@@ -72,15 +70,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="5dp"/>
 
-        <EditText
-            android:id="@+id/popupUserPhone"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/popupUserPhon"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/contact_phone"
-            android:layout_marginTop="@dimen/card_margin"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/popupProductImage"/>
+            app:layout_constraintTop_toBottomOf="@id/popupProductImage"
+            android:theme="@style/TextInputLayoutAppearance">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/popupUserPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_margin"/>
+        </com.google.android.material.textfield.TextInputLayout>
         <TextView
             android:id="@+id/as"
             android:layout_width="wrap_content"
@@ -89,7 +95,7 @@
             android:padding="@dimen/card_margin"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/popupUserPhone"
+            app:layout_constraintTop_toBottomOf="@id/popupUserPhon"
             android:textSize="20sp" />
 
         <RelativeLayout
@@ -112,13 +118,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatButton
+        style="@style/Widget.MaterialComponents.Button"
         android:id="@+id/btnfollow"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Confirm"
         android:layout_marginTop="25dp"
         android:layout_gravity="center_horizontal"
-        android:background="@color/secondaryDarkColor"
         android:textColor="@color/white"/>
 
 </LinearLayout>

@@ -1,24 +1,14 @@
 package com.eli.orange.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.eli.orange.R;
-import com.eli.orange.fragments.LicencesFragment;
 import com.eli.orange.models.Licence;
-import com.eli.orange.models.MapData;
-import com.eli.orange.utils.ShowPopup;
-import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.util.List;
 
@@ -27,8 +17,6 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.eli.orange.utils.Constants.PRIVACY_POLICY_URL;
 
 public class LicencesRecyclerAdapter extends RecyclerView.Adapter<LicencesRecyclerAdapter.ViewHolder> {
     Context context;
@@ -83,7 +71,6 @@ public class LicencesRecyclerAdapter extends RecyclerView.Adapter<LicencesRecycl
 
         @Override
         public void onClick(View v) {
-            ShowPopup  showPopup = new ShowPopup();
            openCustormChromTabs(licenceList.get(this.getAdapterPosition()).getUrl());
         }
 

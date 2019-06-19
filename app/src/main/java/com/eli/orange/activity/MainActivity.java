@@ -10,7 +10,6 @@ import android.os.Handler;
 
 import com.eli.orange.activity.privacyPolicy.PrivacyPolicyActivity;
 import com.eli.orange.fragments.orders.OrdersFragment;
-import com.eli.orange.fragments.LicencesFragment;
 import com.eli.orange.fragments.BottomSheetFragment;
 import com.eli.orange.fragments.addCenter.AddCenterFragment;
 import com.eli.orange.fragments.uploadsFragment;
@@ -317,8 +316,7 @@ public class MainActivity extends BaseActivity {
                 SettingsFragment settingsFragment = new SettingsFragment();
                 return settingsFragment;
             case 5:
-                LicencesFragment licencesFragment = new LicencesFragment();
-                return licencesFragment;
+                return null;
             default:
                 return new homeFragment();
         }
@@ -365,7 +363,8 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.nav_licences:
                         navItemIndex = 5;
-                        CURRENT_TAG = TAG_LICENCES;
+                        startActivity(new Intent(MainActivity.this, Licences.class));
+                        drawer.closeDrawers();
                         break;
                     case R.id.nav_about_us:
                         // launch new intent instead of loading fragment

@@ -17,15 +17,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -33,12 +30,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.eli.orange.R;
 import com.eli.orange.activity.MainActivity;
-import com.eli.orange.fragments.HomeFragment.homeFragment;
 import com.eli.orange.fragments.orders.Orders;
 import com.eli.orange.models.Upload;
 import com.eli.orange.utils.Constants;
 import com.eli.orange.utils.GlideApp;
-import com.eli.orange.viewSelectedItem;
+import com.eli.orange.activity.viewSelectedItem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -90,8 +86,7 @@ public class allContentAdapter extends RecyclerView.Adapter<allContentAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Upload upload = uploadListFiltered.get(position);
 
-        holder.textViewName.setText(upload.getTitle());
-        holder.itemPrice.setText("Buy Now: "+upload.getPrice());
+        holder.itemPrice.setText(upload.getPrice());
         holder.productTitle.setText(upload.getTitle());
         holder.productDescr.setText(upload.getDescription());
 
@@ -167,26 +162,23 @@ public class allContentAdapter extends RecyclerView.Adapter<allContentAdapter.Vi
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
             View.OnLongClickListener {
 
-        @BindView(R.id.textViewName)
-        TextView textViewName;
         @BindView(R.id.imageView)
         ImageView imageView;
         @BindView(R.id.textViewprice)
         TextView itemPrice;
-        @BindView(R.id.uploadsLocation)
-        ImageButton locationButton;
         @BindView(R.id.textViewTitle)
         TextView productTitle;
         @BindView(R.id.textViewDesc)
         TextView productDescr;
+        @BindView(R.id.textViewBuyNow)
+        TextView buyNow;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnLongClickListener(this::onLongClick);
-            locationButton.setOnClickListener(this::onClick);
             imageView.setOnClickListener(this::onClick);
-            itemPrice.setOnClickListener(this::onClick);
+            buyNow.setOnClickListener(this::onClick);
 
         }
 
@@ -195,12 +187,7 @@ public class allContentAdapter extends RecyclerView.Adapter<allContentAdapter.Vi
 
             int adapterPosition = getAdapterPosition();
             switch (v.getId()) {
-                case R.id.uploadsLocation:
-                    FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-                    homeFragment fragm = (homeFragment) fm.findFragmentById(R.id.frame);
-                    fragm.displayPositionMarker(uploadList.get(adapterPosition).getLatitude(), uploadList.get(adapterPosition).getLongitude());
-                    break;
-                case R.id.textViewprice:
+                case R.id.textViewBuyNow:
                     myDialog = new Dialog(context);
                     ShowPopup(v, uploadList.get(adapterPosition));
                     break;
@@ -266,18 +253,11 @@ public class allContentAdapter extends RecyclerView.Adapter<allContentAdapter.Vi
             @Override
             public void onClick(View v) {
                 String selected = quantitySpinner.getSelectedItem().toString();
-                if (selected.isEmpty()) {
+                if (selected.isEmpty() || userphone.getText().toString().isEmpty()) {
                     selected = " "+1;
                     btnFollow.setEnabled(false);
-                }
-                String userMObile = userphone.getText().toString();
-                if(userMObile.isEmpty()){
-                    userphone.setError("Mobile Required !!!");
-                    btnFollow.setEnabled(false);
                 }else
-
-
-                sendOrder(selected,userMObile ,upload.getUserKey(), upload.getProductKey(), upload.getUrl(),upload.getTitle(),upload.getPrice());
+                sendOrder(selected,userphone.getText().toString() ,upload.getUserKey(), upload.getProductKey(), upload.getUrl(),upload.getTitle(),upload.getPrice());
             }
         });
         txtclose.setOnClickListener(new View.OnClickListener() {

@@ -1,10 +1,11 @@
-package com.eli.orange.fragments;
+package com.eli.orange.activity;
 
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +23,7 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.eli.orange.R;
+import com.eli.orange.activity.BaseActivity;
 import com.eli.orange.adapter.LicencesRecyclerAdapter;
 import com.eli.orange.adapter.LocationsAdapter;
 import com.eli.orange.models.Licence;
@@ -40,7 +42,7 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LicencesFragment extends Fragment {
+public class Licences extends BaseActivity {
     private View view;
     @BindView(R.id.licencesRecyclerView)
     RecyclerView licenceRecycler;
@@ -50,22 +52,27 @@ public class LicencesFragment extends Fragment {
     private List<Licence> licenceList = new ArrayList<>();
 
 
-    public LicencesFragment() {
+    public Licences() {
         // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_licences, container, false);
-        ButterKnife.bind(this,view);
-
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_licences);
+        ButterKnife.bind(this);
         mFirebaseInstance = FirebaseDatabase.getInstance();
         new backgroundTask().execute();
 
-        return view;
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle("Licences");
+        }
+
     }
 
     public class backgroundTask extends AsyncTask<Void,Void,Void>{
@@ -87,7 +94,7 @@ public class LicencesFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toast.makeText(getContext(),"Request Canceelled",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(),"Request Canceelled",Toast.LENGTH_LONG).show();
 
                 }
             });
@@ -97,9 +104,9 @@ public class LicencesFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            recyclerAdapter = new LicencesRecyclerAdapter(getContext());
+            recyclerAdapter = new LicencesRecyclerAdapter(getBaseContext());
             licenceRecycler.setAdapter(recyclerAdapter);
-            licenceRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+            licenceRecycler.setLayoutManager(new LinearLayoutManager(getBaseContext()));
             recyclerAdapter.setOnItemClickListener(new LocationsAdapter.ClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
