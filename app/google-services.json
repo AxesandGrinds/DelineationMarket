@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "1062795013323",
-    "firebase_url": "https://telespo.firebaseio.com",
-    "project_id": "telespo",
-    "storage_bucket": "telespo.appspot.com"
+    "project_number": "161041057967",
+    "firebase_url": "https://telespo-ed675.firebaseio.com",
+    "project_id": "telespo-ed675",
+    "storage_bucket": "telespo-ed675.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1062795013323:android:4bc3ae24a74dbc3a",
+        "mobilesdk_app_id": "1:161041057967:android:4bc3ae24a74dbc3a",
         "android_client_info": {
           "package_name": "com.eli.orange"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1062795013323-k61b374uulchho3aucqtv4shr96oiq22.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.eli.orange",
-            "certificate_hash": "c44afe935a0e5e5f820019302bc6bc71682078ef"
-          }
-        },
-        {
-          "client_id": "1062795013323-dp2gtvv2n64auisdrif0e1l95mjuctk3.apps.googleusercontent.com",
+          "client_id": "161041057967-449qe5vn587k769ukg730amtaa6rc2o9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD9wQYs7KLrLD0lWmUwWPlSXr9n6_sKBWU"
+          "current_key": "AIzaSyAZhiruz3CDAq7A__WxJz9vlBHTdMyaJZg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1062795013323-dp2gtvv2n64auisdrif0e1l95mjuctk3.apps.googleusercontent.com",
+              "client_id": "161041057967-449qe5vn587k769ukg730amtaa6rc2o9.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
