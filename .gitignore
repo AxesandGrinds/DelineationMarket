@@ -16,3 +16,4 @@
 keystroke.jks
 private_key.pepk
 /app/release
+/app/google-services.json

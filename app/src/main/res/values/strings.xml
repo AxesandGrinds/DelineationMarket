@@ -114,4 +114,5 @@
     <string name="email_sample">developine.com@gmail.com</string>
     <string name="products">Products</string>
     <string name="search">Search</string>
+    <string name="buy_now">Buy Now</string>
 </resources>

@@ -62,7 +62,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/string_licences"
-            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/aboutUsText"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

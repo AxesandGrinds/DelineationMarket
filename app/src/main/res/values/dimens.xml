@@ -21,5 +21,5 @@
     <dimen name="sp10">10dp</dimen>
     <dimen name="sp6">6sp</dimen>
     <dimen name="search_view_inset">5dp</dimen>
-    <dimen name="image_size">110dp</dimen>
+    <dimen name="image_size">60dp</dimen>
 </resources>

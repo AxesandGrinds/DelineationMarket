@@ -1,9 +1,7 @@
 package com.eli.orange.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -30,7 +28,7 @@ public class AboutUsActivity extends BaseActivity{
         int versionCode = BuildConfig.VERSION_CODE;
         String versionName = BuildConfig.VERSION_NAME;
 
-        version.setText("Version: "+versionName);
+        version.setText("Version: "+versionName+ " [ "+versionCode+" ]");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -39,6 +37,10 @@ public class AboutUsActivity extends BaseActivity{
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle("About Us");
         }
+    }
+    @OnClick(R.id.buttonLicence)
+    void openLicences(){
+        startActivity(new Intent(AboutUsActivity.this, Licences.class));
     }
     @Override
     public boolean onSupportNavigateUp() {

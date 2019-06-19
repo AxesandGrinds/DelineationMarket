@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
 
 
     <uses-permission
@@ -24,7 +23,11 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".viewSelectedItem" />
+        <activity android:name=".activity.viewSelectedItem" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
         <activity android:name=".activity.uploadFiles.ImageUploadActivity" />
         <activity android:name=".activity.FirebaseUserAccountSettingActivity" />
         <activity android:name=".activity.LoginActivity" />
@@ -67,8 +70,11 @@
             android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".utils.GPSTracker" />
-        <activity android:name=".utils.ShowPopup" />
+        <activity android:name=".activity.Licences" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
